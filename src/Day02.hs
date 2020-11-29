@@ -6,5 +6,5 @@ memory :: Memory
 memory = [] 
 
 run :: (Int,Memory) -> (Int,Memory)
-run pointer mem =
-  mem
+run (pointer, mem) =
+  (pointer, mem)
