@@ -1,0 +1,67 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.33.0.
+--
+-- see: https://github.com/sol/hpack
+--
+-- hash: 3270b24662989d5df2714be01ca1d76bb373cd1b615fcc2eff60fa448fd4cc96
+
+name:           advent2019
+version:        0.1.0.0
+description:    Please see the README on GitHub at <https://github.com/githubuser/advent2019#readme>
+homepage:       https://github.com/githubuser/advent2019#readme
+bug-reports:    https://github.com/githubuser/advent2019/issues
+author:         Author name here
+maintainer:     example@example.com
+copyright:      2020 Author name here
+license:        BSD3
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    README.md
+
+source-repository head
+  type: git
+  location: https://github.com/githubuser/advent2019
+
+library
+  exposed-modules:
+      Day01
+      Day02
+      Util
+  other-modules:
+      Paths_advent2019
+  hs-source-dirs:
+      src
+  build-depends:
+      base >=4.7 && <5
+  default-language: Haskell2010
+
+executable advent2019-exe
+  main-is: Main.hs
+  other-modules:
+      Day01
+      Day02
+      Util
+      Paths_advent2019
+  hs-source-dirs:
+      app
+      src
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      advent2019
+    , base >=4.7 && <5
+  default-language: Haskell2010
+
+test-suite advent2019-test
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  other-modules:
+      Paths_advent2019
+  hs-source-dirs:
+      test
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      advent2019
+    , base >=4.7 && <5
+  default-language: Haskell2010
