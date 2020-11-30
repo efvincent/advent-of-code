@@ -4,16 +4,17 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 3270b24662989d5df2714be01ca1d76bb373cd1b615fcc2eff60fa448fd4cc96
+-- hash: 50e664c27ec5943bd47476c97b6bf7a0e9c8f48d926188930f96917ea2385d1b
 
 name:           advent2019
 version:        0.1.0.0
-description:    Please see the README on GitHub at <https://github.com/githubuser/advent2019#readme>
-homepage:       https://github.com/githubuser/advent2019#readme
-bug-reports:    https://github.com/githubuser/advent2019/issues
-author:         Author name here
-maintainer:     example@example.com
-copyright:      2020 Author name here
+synopsis:       Brushing up on Haskell skills for Advent 2020 by re-doing part of Advent 2019
+description:    Please see the README on GitHub at <https://github.com/efvincent/efv.adventOfCode.2019.2.Haskell.git#readme>
+homepage:       https://github.com/efvincent/efv.adventOfCode.2019.2.Haskell.git#readme
+bug-reports:    https://github.com/efvincent/efv.adventOfCode.2019.2.Haskell.git/issues
+author:         Eric Vincent
+maintainer:     eric@efvincent.com
+copyright:      2020 Eric Vincent
 license:        BSD3
 license-file:   LICENSE
 build-type:     Simple
@@ -22,7 +23,7 @@ extra-source-files:
 
 source-repository head
   type: git
-  location: https://github.com/githubuser/advent2019
+  location: https://github.com/efvincent/efv.adventOfCode.2019.2.Haskell.git
 
 library
   exposed-modules:

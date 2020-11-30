@@ -1,22 +1,22 @@
 name:                advent2019
 version:             0.1.0.0
-github:              "githubuser/advent2019"
+github:              "efvincent/efv.adventOfCode.2019.2.Haskell.git"
 license:             BSD3
-author:              "Author name here"
-maintainer:          "example@example.com"
-copyright:           "2020 Author name here"
+author:              "Eric Vincent"
+maintainer:          "eric@efvincent.com"
+copyright:           "2020 Eric Vincent"
 
 extra-source-files:
 - README.md
 
 # Metadata used when publishing your package
-# synopsis:            Short description of your package
+synopsis:            Brushing up on Haskell skills for Advent 2020 by re-doing part of Advent 2019
 # category:            Web
 
 # To avoid duplicated efforts in documentation and dealing with the
 # complications of embedding Haddock markup inside cabal files, it is
 # common to point users to the README.md file.
-description:         Please see the README on GitHub at <https://github.com/githubuser/advent2019#readme>
+description:         Please see the README on GitHub at <https://github.com/efvincent/efv.adventOfCode.2019.2.Haskell.git#readme>
 
 dependencies:
 - base >= 4.7 && < 5
