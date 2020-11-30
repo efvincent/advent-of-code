@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 50e664c27ec5943bd47476c97b6bf7a0e9c8f48d926188930f96917ea2385d1b
+-- hash: 6d593f595509dd0cbc49650e81e5b1dcc688c1ceb12b9778ade47f8b44abf3c1
 
 name:           advent2019
 version:        0.1.0.0
@@ -25,19 +25,6 @@ source-repository head
   type: git
   location: https://github.com/efvincent/efv.adventOfCode.2019.2.Haskell.git
 
-library
-  exposed-modules:
-      Day01
-      Day02
-      Util
-  other-modules:
-      Paths_advent2019
-  hs-source-dirs:
-      src
-  build-depends:
-      base >=4.7 && <5
-  default-language: Haskell2010
-
 executable advent2019-exe
   main-is: Main.hs
   other-modules:
@@ -50,8 +37,10 @@ executable advent2019-exe
       src
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-      advent2019
-    , base >=4.7 && <5
+      base >=4.7 && <5
+    , containers
+    , mtl
+    , split
   default-language: Haskell2010
 
 test-suite advent2019-test
@@ -65,4 +54,7 @@ test-suite advent2019-test
   build-depends:
       advent2019
     , base >=4.7 && <5
+    , containers
+    , mtl
+    , split
   default-language: Haskell2010

@@ -1,5 +1,7 @@
 module Util where
 
+import Data.List.Split ( splitOn )
+
 -- | Runs a single test, by checking 'control' is equal to 'candidate'
 -- Returns 'Either' where 'Right ()' is success, and 'Left msg' is the message supplied
 -- in a failure case
@@ -14,3 +16,8 @@ fileToIntList :: FilePath -> IO [Int]
 fileToIntList filename = do
   raw <- readFile filename
   return $ map read $ words raw
+
+fileOfCSVToIntList :: FilePath -> IO [Int]
+fileOfCSVToIntList filename = do
+  raw <- readFile filename
+  return $ map read $ splitOn "," raw
