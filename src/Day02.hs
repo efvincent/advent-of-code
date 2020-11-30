@@ -1,10 +1,12 @@
 module Day02 where
 
-import Data.IntMap.Strict
+import Data.IntMap.Strict ( (!?), fromList, insert, IntMap )
+import Data.List (sortBy)
 import Control.Monad.State
-import Data.Maybe
+    ( evalState, MonadState(get, put), State )
+import Data.Maybe ( fromMaybe )
 import Util (fileOfCSVToIntList)
-import Debug.Trace
+import Debug.Trace ( trace )
 
 type Memory = IntMap Int
 type MemValue = Int
@@ -21,7 +23,6 @@ data Computer = Computer
   , _runState :: RunState }
   deriving (Show)
 
-
 data Instruction  = Halt
                   | Add { v1addr :: Address, v2addr :: Address, resultAddr :: Address }
                   | Multiply { v1addr :: Address, v2addr :: Address, resultAddr :: Address }
@@ -32,6 +33,14 @@ data Instruction  = Halt
 getMemAt :: Computer -> Address -> MemValue
 getMemAt comp addr = fromMaybe 0 $ _memory comp !? addr 
 
+-- | Set the address to the current memory value in the current computer state
+setMemAt :: Address -> MemValue -> State Computer ()
+setMemAt addr v = do
+  comp <- get
+  let mem = _memory comp
+  put $ comp { _memory = insert addr v mem }
+
+-- | Given the current state of a computer, decode the memory at the current address pointer into an instruction
 decodeOp :: Computer -> Instruction
 decodeOp comp =
   case ma addr of
@@ -44,17 +53,13 @@ decodeOp comp =
     ma = getMemAt comp
     _ = trace ("decodeOp addr" ++ show addr ) ()
 
-setMemAt :: Address -> MemValue -> State Computer ()
-setMemAt addr v = do
-  comp <- get
-  let mem = _memory comp
-  put $ comp { _memory = insert addr v mem }
-
+-- | Advance the current address pointer by the specified number of positions
 advance :: Int -> State Computer ()
 advance places = do
   comp <- get
   put $ comp { _curAddr = _curAddr comp + places }
 
+-- | Execute an instruction against the computer state
 execInstruction :: Instruction -> State Computer ()
 execInstruction ins = do
   comp <- get
@@ -71,12 +76,8 @@ execInstruction ins = do
       setMemAt ar (v1 * v2)
       >> advance 4
     Other v -> put $ comp { _runState = Fault ("Unknown instruction, value: " ++ show v) }
-
-loadAndRunFile :: FilePath -> IO Int
-loadAndRunFile memFileName = do
-  raw <- fileOfCSVToIntList memFileName
-  return $ loadAndRun (Just (12,2)) raw
   
+-- | Given a list of Int, build a computer in it's initial state
 compFromRaw :: [Int] -> Computer
 compFromRaw raw =
   let xs = zip ([0..] :: [Int]) raw in
@@ -85,11 +86,22 @@ compFromRaw raw =
     , _runState = Running
     , _curAddr = 0 }
 
-loadAndRun :: Maybe (Int,Int) -> [Int] -> Int
-loadAndRun preset raw =
+-- | Given the preset (noun,verb) settings and a list of memory, build the computer from the raw
+-- memory, apply the preset, and run the computer
+initAndRun :: Maybe (Int,Int) -> [Int] -> Int
+initAndRun preset raw =
   let initState = compFromRaw raw in
   let comp = evalState (execComputer preset) initState in
   getMemAt comp 0
+
+-- | Given a file path, parse the raw memory from the file and run the computer with the
+-- pre-specified (noun,verb) pair of 12,2 from the advent question
+loadAndRunFile :: FilePath -> IO Int
+loadAndRunFile memFileName = do
+  raw <- fileOfCSVToIntList memFileName
+  return $ initAndRun (Just (12,2)) raw
+
+
 
 execComputer :: Maybe (Int,Int) -> State Computer Computer
 execComputer 
@@ -110,11 +122,15 @@ execComputer
 
 test =
   let xs = [1,9,10,3,2,3,11,0,99,30,40,50]  in
-  loadAndRun Nothing xs
+  initAndRun Nothing xs
 
 solvePart1 =
   loadAndRunFile "./data/Day02.txt"
 
+partTwoTarget :: Int
+partTwoTarget = 19690720
+
+solvePart2 :: IO (Int, Int, Int, Int)
 solvePart2 = do
   raw <- fileOfCSVToIntList "./data/Day02.txt"
   -- assuming the solution will be closer to the middle value than the extremes, sort by
@@ -123,10 +139,11 @@ solvePart2 = do
   let cases = 
         sortBy (\(n,v) (n',v') -> compare (abs (n-50) + abs (v-50)) (abs (n'-50) + abs (v'-50))) 
         [(noun,verb) | noun <- [0..99], verb <- [0..99]]
+  return $ findWinner 0 cases raw
   where 
-    findWinner :: [(Int,Int)] -> [Int] -> (Int,Int,Int)
-    findWinner [] _ = (0,0,0)
-    findWinner ((n,v):xs) raw =
-      case loadAndRun (Just (n,v)) raw of
-        19690720 -> (n,v, 100*n+v)
-        _ -> findWinner xs raw
+    findWinner :: Int -> [(Int,Int)] -> [Int] -> (Int,Int,Int,Int)
+    findWinner c [] _ = (c,0,0,0)
+    findWinner c ((n,v):xs) raw =
+      case initAndRun (Just (n,v)) raw of
+        19690720 -> (c,n,v, 100*n+v)
+        _ -> findWinner (c+1) xs raw
