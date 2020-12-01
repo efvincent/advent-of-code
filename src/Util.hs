@@ -9,15 +9,21 @@ check :: Eq a => String -> a -> a -> Either String ()
 check msg control candidate =
   if control == candidate then Right () else Left msg
 
--- | Given a filename that's assumed to contain a list of what can be read as
--- 'Int', with one 'Int' per line, returns 'IO [Int]' which is all the numbers
--- in the file in the order they appeared in the file
+-- | Given a filename of a text file with one Int per line, returns 'IO [Int]' 
 fileToIntList :: FilePath -> IO [Int]
 fileToIntList filename = do
   raw <- readFile filename
   return $ map read $ words raw
 
+-- | Given a file with a single line of comma separated Ints, return [Int]
 fileOfCSVToIntList :: FilePath -> IO [Int]
 fileOfCSVToIntList filename = do
   raw <- readFile filename
   return $ map read $ splitOn "," raw
+
+-- | Given a filename of lines where each line is a comma separated list of strings,
+-- return [[String]]
+fileOfLinesOfCSVStringsToLists :: FilePath -> IO [[String]]
+fileOfLinesOfCSVStringsToLists filename = do
+  raw <- readFile filename
+  return $ map (splitOn ",") $ lines raw
