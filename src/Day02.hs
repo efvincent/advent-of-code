@@ -137,10 +137,14 @@ solvePart2 = do
   -- the net distance from the midpoint tuple. Roughly 87% savings in cases, 85% savings
   -- on time, and 86% savings on memory
   let cases = 
-        sortBy (\(n,v) (n',v') -> compare (abs (n-50) + abs (v-50)) (abs (n'-50) + abs (v'-50))) 
-        [(noun,verb) | noun <- [0..99], verb <- [0..99]]
+        sortBy (\a b -> compare (factor a) (factor b))
+          [(noun,verb) | noun <- [0..99], verb <- [0..99]] 
+
   return $ findWinner 0 cases raw
   where 
+    factor :: (Int,Int) -> Int
+    factor (n,v) = abs (n-50) + abs (v-50)
+    
     findWinner :: Int -> [(Int,Int)] -> [Int] -> (Int,Int,Int,Int)
     findWinner c [] _ = (c,0,0,0)
     findWinner c ((n,v):xs) raw =
