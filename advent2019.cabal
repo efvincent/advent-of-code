@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 96b91f1a4ac8cae9fd8eea1a623a0cf7cf1ac18f8629905214c44fc3ab7081d6
+-- hash: 677de2a38f5b42946455051d0d5c640d1f9388e9e13244d1c44c157749fb7b24
 
 name:           advent2019
 version:        0.1.0.0
@@ -28,6 +28,7 @@ source-repository head
 executable advent2019-exe
   main-is: Main.hs
   other-modules:
+      AOC2020.Day01
       Day01
       Day02
       Day03
