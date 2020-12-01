@@ -4,9 +4,10 @@ module Day03 where
 
 import Util (fileOfLinesOfCSVStringsToLists)
 import qualified Data.Set as Set
-
+import qualified Data.Map as Map
+import Debug.Trace
 type Instruction = (Char, Int)
-type Pos = (Int,Int)
+type Pos = (Int,Int,Int)
 type Segment = (Pos,Pos)
 type Wire = Set.Set Pos
 
@@ -24,22 +25,22 @@ test = do
   print lol
 
 steps :: Pos -> Instruction -> [Pos]
-steps (x,y) (dir, amp) =
+steps (x,y,l) (dir, amp) =
   case dir of
-    'U' -> [(x,y') | y' <- [(y - amp)..y]]
-    'D' -> [(x,y') | y' <- [(y + amp),(y + amp -1)..y]]
-    'R' -> [(x',y) | x' <- [(x + amp),(x + amp -1)..x]]
-    'L' -> [(x',y) | x' <- [(x - amp)..x]]
+    'U' -> [(x,y',l) | y' <- [(y - amp)..y]]
+    'D' -> [(x,y',l) | y' <- [(y + amp),(y + amp -1)..y]]
+    'R' -> [(x',y,l) | x' <- [(x + amp),(x + amp -1)..x]]
+    'L' -> [(x',y,l) | x' <- [(x - amp)..x]]
     _   -> []
 
 segment :: Pos -> Instruction -> Pos
-segment (x,y) (dir, amp) =
+segment (x,y,l) (dir, amp) =
   case dir of
-    'U' -> (x,       y - amp)
-    'D' -> (x,       y + amp)
-    'R' -> (x + amp, y)
-    'L' -> (x - amp, y)
-    _   -> (x,y)
+    'U' -> (x,       y - amp, l + amp)
+    'D' -> (x,       y + amp, l + amp)
+    'R' -> (x + amp, y      , l + amp)
+    'L' -> (x - amp, y      , l + amp)
+    _   -> (x,y,l)
 
 toIns :: String -> Instruction
 toIns (s:ss) = (s, read ss :: Int)
@@ -50,29 +51,34 @@ buildSegments segments [] = segments
 buildSegments segments (instr:instrs) = 
   buildSegments segments' instrs
   where
-    curEnd = if null segments then (0,0) else snd $ head segments
+    curEnd = if null segments then (0,0,0) else snd $ head segments
     newEnd = segment curEnd instr
     segments' = (curEnd, newEnd) : segments
 
 orientation :: Pos -> Pos -> Pos -> Orientation
-orientation (px,py) (qx,qy) (rx,ry) =
+orientation (px,py,_) (qx,qy,_) (rx,ry,_) =
   case (qy - py) * (rx - qx) - (qx - px) * (ry - qy) of
     0         -> CO
     v | v > 0 -> CW
     _         -> CCW
 
 onSeg :: Pos -> Pos -> Pos -> Bool
-onSeg (px,py) (qx,qy) (rx,ry) =
+onSeg (px,py,_) (qx,qy,_) (rx,ry,_) =
   qx <= max px rx && 
   qx >= max px rx &&
   qy <= max py ry &&
   qy >= max py ry
 
+-- | Simple numeric range generator that goes up or down by step 1
+-- depending on if a > b or b > a
+rng :: (Eq a, Num a, Enum a) => a -> a -> [a]
+rng a b | a == b = [a]
+rng a b = [a, a + signum (b - a)..b]
+
 pointsOnSeg :: Segment -> [Pos]
-pointsOnSeg ((x1,y1),(x2,y2)) =
-  let (x1',x2') = if x2 < x1 then (x2,x1) else (x1,x2) in
-  let (y1',y2') = if y2 < y1 then (y2,y1) else (y1,y2) in
-  [(x,y) | x <- [x1'..x2'], y <- [y1'..y2']]
+pointsOnSeg ((x1,y1,l1),(x2,y2,_)) =
+  let ps = [(x,y) | x <- rng x1 x2, y <- rng y1 y2] in
+  map (\(x,y) -> (x,y,abs (abs x-x1 + abs y-y1) + l1)) ps
 
 -- | True if the two segments intersect, otherwise false
 intersects :: Segment -> Segment -> [Pos]
@@ -89,20 +95,36 @@ intersects (p1,q1) (p2,q2) =
     then inter (p1,q1) (p2, q2) 
     else []
   where
+    -- inter :: Segment -> Segment -> [Pos]
+    -- inter s1 s2 = 
+    --   let pointsOn1 = Set.fromList $ pointsOnSeg s1 in        
+    --   [p | p <- pointsOnSeg s2, Set.member p pointsOn1]
+
     inter :: Segment -> Segment -> [Pos]
-    inter s1 s2 = 
-      let pointsOn1 = Set.fromList $ pointsOnSeg s1 in        
-      [p | p <- pointsOnSeg s2, Set.member p pointsOn1]
+    inter s1 s2 =
+      let pointsOn1 = Map.fromList $ map (\(x,y,l) -> ((x,y), (x,y,l))) (pointsOnSeg s2)  in
+      foldl 
+        (\acc (x,y,l) ->
+
+          case (trace (show pointsOn1) pointsOn1) Map.!? (x,y) of
+            Just (_,_,l2) -> (x,y,l+l2):acc
+            Nothing -> acc
+        ) [] s1
 
 closestIntersect :: [String] -> [String] -> Maybe Int
 closestIntersect raw1 raw2 =
   let segs1 = buildSegments [] $ map toIns raw1 in
   let segs2 = buildSegments [] $ map toIns raw2 in
   let allInters = concat [intersects s1 s2 | s1 <- segs1, s2 <- segs2] in
-    case filter (/= 0) $ map (\(x,y) -> abs x + abs y) allInters of
+    case filter (/= 0) $ map (\(x,y,_) -> abs x + abs y) allInters of
       [] -> Nothing
       dists -> Just $ minimum dists
 
+-- cheapestIntersect :: [String] -> [String] -> Maybe Int
+-- cheapestIntersect raw1 raw2 =
+--   let segs1 = buildSegments [] $ map toIns raw1 in
+--   let segs2 = buildSegments [] $ map toIns raw2 in  
+--   let allInters = concat [intersects s1 s2 | s1 <- segs1, s2 <- segs2] in
 
 solvePart1 :: FilePath -> IO (Maybe Int)
 solvePart1 filename = do
