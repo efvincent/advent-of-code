@@ -86,10 +86,10 @@ intersects (p1,q1) (p2,q2) =
   let o3 = orientation p2 q2 p1 in 
   let o4 = orientation p2 q2 q1 in
     if (o1 /= o2 && o3 /= o4 ) 
-     || o1 == CO && onSeg p1 p2 q1  
-     || o2 == CO && onSeg p1 q2 p1  
-     || o3 == CO && onSeg p2 p1 q2  
-     || o4 == CO && onSeg p2 q1 q2 
+    || o1 == CO && onSeg p1 p2 q1  
+    || o2 == CO && onSeg p1 q2 p1  
+    || o3 == CO && onSeg p2 p1 q2  
+    || o4 == CO && onSeg p2 q1 q2 
     then inter (p1,q1) (p2, q2) 
     else []
   where
@@ -103,7 +103,7 @@ intersects (p1,q1) (p2,q2) =
       let pointsOn1 = Map.fromList $ map (\(x,y,l) -> ((x,y), (x,y,l))) (pointsOnSeg s2)  in
       foldl 
         (\acc (x,y,l) ->
-
+          -- TODO: WIP!
           case (trace (show pointsOn1) pointsOn1) Map.!? (x,y) of
             Just (_,_,l2) -> (x,y,l+l2):acc
             Nothing -> acc
