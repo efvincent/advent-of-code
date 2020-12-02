@@ -94,15 +94,6 @@ initAndRun preset raw =
   let comp = evalState (execComputer preset) initState in
   getMemAt comp 0
 
--- | Given a file path, parse the raw memory from the file and run the computer with the
--- pre-specified (noun,verb) pair of 12,2 from the advent question
-loadAndRunFile :: FilePath -> IO Int
-loadAndRunFile memFileName = do
-  raw <- fileOfCSVToIntList memFileName
-  return $ initAndRun (Just (12,2)) raw
-
-
-
 execComputer :: Maybe (Int,Int) -> State Computer Computer
 execComputer 
   (Just (noun,verb)) = do
@@ -124,15 +115,19 @@ test =
   let xs = [1,9,10,3,2,3,11,0,99,30,40,50]  in
   initAndRun Nothing xs
 
-solvePart1 =
-  loadAndRunFile "./data/Day02.txt"
+-- | Given a file path, parse the raw memory from the file and run the computer with the
+-- pre-specified (noun,verb) pair of 12,2 from the advent question
+solvePart1 :: FilePath -> IO Int
+solvePart1 filename = do
+  raw <- fileOfCSVToIntList filename
+  return $ initAndRun (Just (12,2)) raw
 
 partTwoTarget :: Int
 partTwoTarget = 19690720
 
-solvePart2 :: IO (Int, Int, Int, Int)
-solvePart2 = do
-  raw <- fileOfCSVToIntList "./data/Day02.txt"
+solvePart2 :: FilePath -> Int -> IO (Int, Int, Int, Int)
+solvePart2 filename target = do
+  raw <- fileOfCSVToIntList filename
   -- assuming the solution will be closer to the middle value than the extremes, sort by
   -- the net distance from the midpoint tuple. Roughly 87% savings in cases, 85% savings
   -- on time, and 86% savings on memory
@@ -149,5 +144,5 @@ solvePart2 = do
     findWinner c [] _ = (c,0,0,0)
     findWinner c ((n,v):xs) raw =
       case initAndRun (Just (n,v)) raw of
-        19690720 -> (c,n,v, 100*n+v)
+        t | t == target -> (c,n,v, 100*n+v)
         _ -> findWinner (c+1) xs raw
