@@ -1,6 +1,6 @@
-name:                advent2019
+name:                aoc
 version:             0.1.0.0
-github:              "efvincent/efv.adventOfCode.2019.2.Haskell.git"
+github:              "efvincent/advent-of-code.git"
 license:             BSD3
 author:              "Eric Vincent"
 maintainer:          "eric@efvincent.com"
@@ -10,13 +10,13 @@ extra-source-files:
 - README.md
 
 # Metadata used when publishing your package
-synopsis:            Brushing up on Haskell skills for Advent 2020 by re-doing part of Advent 2019
+synopsis:            Advent of code 2020, with some previous year practice work
 # category:            Web
 
 # To avoid duplicated efforts in documentation and dealing with the
 # complications of embedding Haddock markup inside cabal files, it is
 # common to point users to the README.md file.
-description:         Please see the README on GitHub at <https://github.com/efvincent/efv.adventOfCode.2019.2.Haskell.git#readme>
+description:         Please see the README on GitHub at <https://github.com/efvincent/advent-of-code.git#readme>
 
 dependencies:
 - base >= 4.7 && < 5
@@ -28,7 +28,7 @@ dependencies:
 #  source-dirs: src
 
 executables:
-  advent2019-exe:
+  aoc-exe:
     main:                Main.hs
     source-dirs:         
     - app
@@ -37,12 +37,9 @@ executables:
     - -threaded
     - -rtsopts
     - -with-rtsopts=-N
-#    dependencies:
-#    - advent2019
-    
 
 tests:
-  advent2019-test:
+  aoc-test:
     main:                Spec.hs
     source-dirs:         test
     ghc-options:
@@ -50,5 +47,5 @@ tests:
     - -rtsopts
     - -with-rtsopts=-N
     dependencies:
-    - advent2019
+    - aoc
   
