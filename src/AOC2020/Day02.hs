@@ -2,8 +2,6 @@ module AOC2020.Day02 where
 
 import Data.List.Split ( splitOn )
 
-data Part = PART1 | PART2
-
 -- | Checks for a legal string using two algorithms, returns tuple of two
 -- bool results.
 isLegal :: String -> (Bool,Bool)
@@ -21,16 +19,16 @@ isLegal s =
 xor :: Bool -> Bool -> Bool
 xor x y = (x && not y ) || (not x && y)
 
--- | Solve the puzzle, counting the number of legal results where each line
--- in the string is a test. Use algorithm determined by `Part`
-solve :: Part -> String -> Int
-solve p ss =
-  let idx = case p of PART1 -> fst; PART2 -> snd in
-  length $ filter (==True) $ map (idx . isLegal) $ lines ss
+-- | Solve the puzzle using both alorithms
+solve :: String -> (Int,Int)
+solve ss =
+  let anss = map isLegal $ lines ss in
+  ( length $ filter (==True) $ map fst anss
+  , length $ filter (==True) $ map snd anss)
 
--- | Solve for data in a file
-solveFor :: Part -> String -> IO Int
-solveFor part filename = do 
+-- | Solve for data in a file return solution for bolth algos
+solveFor :: String -> IO (Int,Int)
+solveFor filename = do 
   raw <- readFile filename
-  return $ solve part raw
+  return $ solve raw
   
