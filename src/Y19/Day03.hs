@@ -1,6 +1,4 @@
-{-# LANGUAGE TypeSynonymInstances #-}
-
-module Day03 where
+module Y19.Day03 where
 
 import Util (fileOfLinesOfCSVStringsToLists)
 import qualified Data.Set as Set

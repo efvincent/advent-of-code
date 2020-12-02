@@ -1,4 +1,4 @@
-module AOC2020.Day01 where
+module Y20.Day01 where
 
 import Util ( fileToIntList )
 

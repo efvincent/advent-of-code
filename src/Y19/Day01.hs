@@ -1,4 +1,4 @@
-module Day01 where
+module Y19.Day01 where
 
 import Util (fileToIntList, check)
 

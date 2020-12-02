@@ -1,4 +1,4 @@
-module Day02 where
+module Y19.Day02 where
 
 import Data.IntMap.Strict ( (!?), fromList, insert, IntMap )
 import Data.List (sortBy)

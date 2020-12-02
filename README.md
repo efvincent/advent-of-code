@@ -1,5 +1,5 @@
 # Advent of Code 2020!
-
+This (messy) repo includes both some 2019 I was practicing on earlier as well as 2020 - reflected in year sub-folders.
 ## Running Score
 Well one thing's clear... I'm not going to break any speed records. I'm happy to take this
 as a fun exercise and a good excuse to play with Haskell and hopefully learn some useful stuff
