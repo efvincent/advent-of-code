@@ -35,4 +35,28 @@ multiStepFile fn slopes = do
   raw <- readFile fn
   let trees = words raw
   let width = length . head $ trees
-  pure $ foldr (*) 1 $ map (\s -> step trees width (0,0) s 0) slopes
+
+  {- 
+  This is an interesting, and typical, example of efficiencies gained
+  from funtional composition. This line maps the `step` function (calculate 
+  the result for a particular set of "trees" with a given slope) across all
+  the slopes, generating a list of results:
+
+      map (\s -> step trees width (0,0) s 0) slopes
+
+  That list is then passed to a right fold over the `*` function, which multiples
+  each result by an accumulator. This is the second pass through the list of
+  slopes: 
+  
+      foldr (*) 1 $   ...result of map from above...
+  
+  This can be done in a single pass if we compose the muliply and the calling
+  of the step function together. For each slope this composed function calculates
+  the step result, then multiplies it by the accumulator.
+
+  In this case, a single pass over such a short list is not really going to be
+  a savings, but the practice is canonical Haskell, and building that brain-muscle
+  memory so these cases are recognized automatically will yeild better quality
+  solutions in the future ... that's what Advent of Code is all about (for me 🙂)
+  -}
+  pure $ foldr ((*) . (\ s -> step trees width (0, 0) s 0)) 1 slopes
