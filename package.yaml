@@ -23,6 +23,8 @@ dependencies:
 - containers
 - mtl
 - split
+- text
+- regex-tdfa
 
 # library:
 #  source-dirs: src
