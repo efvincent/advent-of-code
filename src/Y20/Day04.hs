@@ -1,10 +1,10 @@
-{-# LANGUAGE OverloadedStrings   #-}
+{-# LANGUAGE OverloadedStrings #-}
 
 module Y20.Day04 where
 import           Data.List.Split (splitOn)
 import           Data.Text       (Text, pack, replace, unpack)
 import           Text.Read       (readMaybe)
-import Text.Regex.TDFA ( (=~) )
+import           Text.Regex.TDFA ((=~))
 
 -- | Replace fn, should really get used to using Text instead of string
 repl :: Text -> Text -> String -> String
@@ -72,10 +72,10 @@ checkRequiredAndValues s =
 solve :: ([String] -> Bool) -> String -> IO Int
 solve algo filename = do
   raw <- readFile filename
-  let p2 = 
-        map (splitOn " ") 
-        $ splitOn "~" 
-        $ repl "\n" " " 
+  let p2 =
+        map (splitOn " ")
+        $ splitOn "~"
+        $ repl "\n" " "
         $ repl "\n\n" "~" raw in
     pure $ length $ filter (==True) $ map algo p2
 
