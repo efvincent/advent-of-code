@@ -4,6 +4,16 @@ import qualified Data.Set as Set
 filename :: [Char]
 filename = "./data/20/Day05.txt"
 
+{-
+whoa ... check this out:
+  BFFFBFBLLR -> 553
+  1000101001 -> 553
+this means these seat codes are just binary where
+  B/R => 1 and F/L => 0
+  could have written findSeat and Step to take advantage :/
+  lesson for next time. 
+-}
+
 -- | c1 and c2 are the encoding chars, either 'F' 'B' or 'L' 'R'. This function 
 -- pattern matches the `[Char]` list. When there's only one char left `[c]` the
 -- guard chooses either the low or high remaining value. Otherwise, it either 
