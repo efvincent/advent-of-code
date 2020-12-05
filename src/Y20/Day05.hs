@@ -5,35 +5,20 @@ filename :: [Char]
 filename = "./data/20/Day05.txt"
 
 {-
-whoa ... check this out:
-  BFFFBFBLLR -> 553
-  1000101001 -> 553
-this means these seat codes are just binary where
-  B/R => 1 and F/L => 0
-  could have written findSeat and Step to take advantage :/
-  lesson for next time. 
+not the original approach, switched after realizing the string was just
+binary. This is so much nicer.
 -}
 
--- | c1 and c2 are the encoding chars, either 'F' 'B' or 'L' 'R'. This function 
--- pattern matches the `[Char]` list. When there's only one char left `[c]` the
--- guard chooses either the low or high remaining value. Otherwise, it either 
--- picks the top or bottom half and recurses
-step :: Char -> Char -> [Char] -> Int -> Int -> Int
-step c1 _  [c] low _ | c == c1 = low
-step _  c2 [c] _ hi  | c == c2 = hi
-step c1 c2 (c:cs) low hi | c == c1 = step c1 c2 cs low (((hi-low) `div` 2) + low)
-step c1 c2 (c:cs) low hi | c == c2 = step c1 c2 cs (((hi-low) `div` 2) + 1 + low) hi
+decode :: [Char] -> [Int]
+decode = map (\c -> if c == 'F' || c == 'L' then 0 else 1)
 
-code :: Int -> Int -> Int
-code r c = r * 8 + c
-
-findSeat :: [Char] -> Int
-findSeat cs = code (step 'F' 'B' (take 7 cs) 0 127) (step 'L' 'R' (drop 7 cs) 0 7)
-
-solve5 :: String -> IO ()
-solve5 fn = do
-  raw <- readFile fn
-  print $ maximum $ map findSeat $ lines raw
+binToInt :: [Int] -> Int
+binToInt = foldl (\acc n -> 2 * acc + n) 0
+ 
+solve5 :: IO ()
+solve5 = do
+  raw <- readFile filename
+  print $ maximum $ map (binToInt . decode) $ lines raw
 
 {-
 part 2
@@ -54,6 +39,6 @@ solve5b = do
   raw <- readFile filename
   let ordered = 
         Set.toAscList
-        $ foldr Set.delete (Set.fromList $ map findSeat $ lines raw)
-        $ [code 0 c | c <- [0..7]] ++ [code 127 c | c <- [0..7]] in
+        $ foldr Set.delete (Set.fromList $ map (binToInt . decode) $ lines raw)
+        $ [0..7] ++ [127 * 8 + c | c <- [0..7]] in
     print $ findGap ordered
