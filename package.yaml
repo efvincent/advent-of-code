@@ -25,6 +25,7 @@ dependencies:
 - split
 - text
 - regex-tdfa
+- criterion
 
 # library:
 #  source-dirs: src
