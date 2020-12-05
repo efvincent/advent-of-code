@@ -1,28 +1,11 @@
-{-# LANGUAGE OverloadedStrings #-}
-
 module Y20.Day04 where
 import           Data.List.Split (splitOn)
-import           Data.Text       (Text, pack, replace, unpack)
 import           Text.Read       (readMaybe)
 import           Text.Regex.TDFA ((=~))
-
--- | Replace fn, should really get used to using Text instead of string
-repl :: Text -> Text -> String -> String
-repl s1 s2 = unpack . replace s1 s2 . pack
 
 -- | Required values
 req :: [String]
 req = ["byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid"]
-
--- | Could have used regexes to extract
-slice :: Int -> Int -> [a] -> [a]
-slice from to xs = take (to - from + 1) (drop from xs)
-
-validateYear :: Int -> Int -> String -> Bool
-validateYear mn mx s =
-  case readMaybe s::Maybe Int of
-    Just y | length s == 4 && y >= mn && y <= mx -> True
-    _                                            -> False
 
 heightrx :: String
 heightrx = "\\`[0-9]+cm|in\\'"
@@ -36,13 +19,15 @@ hairCol = "\\`#[0-9a-f]{6}\\'"
 pid :: String
 pid = "\\`[0-9]{9}\\'"
 
+validateYear :: Int -> Int -> String -> Bool
+validateYear mn mx s =
+  all (\y -> y >= mn && y <= mx) $ readMaybe s
+
 validateHeight :: String -> Bool
 validateHeight s =
-  (s =~ heightrx :: Bool) &&
-    let l = length s in
-    let n = read (slice 0 (l - 3) s) :: Int
-    in
-      case slice (l - 2) l s of
+  s =~ heightrx &&
+    let n = read $ s =~ "[0-9]+" in
+      case s =~ "cm|in" :: String of
         "in" -> n >= 59 && n <= 76
         "cm" -> n >= 150 && n <= 193
         _    -> False
@@ -59,25 +44,23 @@ validateValue (k,v) =
     "pid" -> v =~ pid
     _     -> True
 
-checkRequired :: [String] -> Bool
+checkRequired :: [[String]] -> Bool
 checkRequired s =
-  let s' = map (head . splitOn ":") s in
+  let s' = map head s in
   all (`elem` s') req
 
-checkRequiredAndValues :: [String] -> Bool
+checkRequiredAndValues :: [[String]] -> Bool
 checkRequiredAndValues s =
-  let s' = map ((\[p1,p2] -> (p1,p2)) . splitOn ":") s in
+  let s' = map (\[p1,p2] -> (p1,p2)) s in
   all (`elem` map fst s') req && all validateValue s'
 
-solve :: ([String] -> Bool) -> String -> IO Int
+solve :: ([[String]] -> Bool) -> String -> IO Int
 solve algo filename = do
   raw <- readFile filename
-  let p2 =
-        map (splitOn " ")
-        $ splitOn "~"
-        $ repl "\n" " "
-        $ repl "\n\n" "~" raw in
-    pure $ length $ filter (==True) $ map algo p2
+  pure
+    $ length
+    $ filter (==True)
+    $ map (algo . map (splitOn ":") . words) (splitOn "\n\n" raw)
 
 {- USAGE:
 λ> Y20.Day04.solve checkRequired "./data/20/Day04.txt"
