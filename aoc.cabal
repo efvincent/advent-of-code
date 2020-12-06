@@ -37,6 +37,7 @@ executable aoc-exe
       Y20.Day03
       Y20.Day04
       Y20.Day05
+      Y20.Day06
       Paths_aoc
   hs-source-dirs:
       app
