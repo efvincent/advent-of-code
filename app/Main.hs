@@ -1,8 +1,10 @@
 module Main where
-import qualified Y20.Day05
-import Criterion.Main
+import           Criterion.Main
+import qualified Y20.Day06
 
 main :: IO ()
 main = defaultMain [
-    bench "day05" $ nfIO Y20.Day05.solve5b
+  bgroup "Day 6"  [ bench "part 1" $ nfIO Y20.Day06.solve61
+                  , bench "part 2" $ nfIO Y20.Day06.solve62
+                  ]
   ]
