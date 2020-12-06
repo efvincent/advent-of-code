@@ -20,4 +20,12 @@ Fastest time so far for part 1 - good for my standards 🙂
 Days 6 and 5 were both easier than the days that preceded them. Not complaining b/c I'm sure there'll be some whoppers coming before long.
 
 #### Benchmarks!
-Came across a few new things last couple of days, most interesting is the [Criterion](http://www.serpentine.com/criterion/) library for Benchmarking in Haskell. It'll be interesting when I have an algorithm that is in obvious need of improvement. For now here's [the result from Day 6](benchmarks/20/aoc-bench-day06.html).
+Came across a few new things last couple of days, most interesting is the [Criterion](http://www.serpentine.com/criterion/) library for Benchmarking in Haskell. It'll be interesting when I have an algorithm that is in obvious need of improvement. Day 6 results:
+
+||lower bound	|estimate	|upper bound|
+|--|--:|--:|--:|
+|OLS regression	|2.57 ms	|2.66 ms	|2.77 ms
+|R² goodness-of-fit	|0.967	|0.985	|0.997
+|Mean execution time	|2.83 ms	|2.91 ms	|3.12 ms
+|Standard deviation	|193 μs	|428 μs|	713 μs
+> Outlying measurements have severe (81.4%) effect on estimated standard deviation.
