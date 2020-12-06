@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 85d3f29b62bdf3d9b8c94ce8f19f159557dded9075f63789bb705b586a62cff4
+-- hash: 6d37ef0fd02d33d85706732962ce9f8dc4532e6bc4bb7ffb7e78186db8ca2c9e
 
 name:           aoc
 version:        0.1.0.0
@@ -29,6 +29,8 @@ executable aoc-exe
   main-is: Main.hs
   other-modules:
       Util
+      Y18.Day01
+      Y18.Day02
       Y19.Day01
       Y19.Day02
       Y19.Day03
@@ -37,6 +39,7 @@ executable aoc-exe
       Y20.Day03
       Y20.Day04
       Y20.Day05
+      Y20.Day05v1
       Y20.Day06
       Paths_aoc
   hs-source-dirs:

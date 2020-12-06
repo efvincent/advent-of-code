@@ -1,6 +1,10 @@
 module Util where
 
 import Data.List.Split ( splitOn )
+import Data.List (group, sort)
+
+histogram :: Eq b => Ord b => [b] -> [(Int, b)]
+histogram = map (\l -> (length l, head l)) . (group . sort)
 
 -- | Runs a single test, by checking 'control' is equal to 'candidate'
 -- Returns 'Either' where 'Right ()' is success, and 'Left msg' is the message supplied
