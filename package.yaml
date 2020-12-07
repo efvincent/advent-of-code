@@ -26,6 +26,7 @@ dependencies:
 - text
 - regex-tdfa
 - criterion
+- flow
 
 # library:
 #  source-dirs: src
