@@ -74,7 +74,8 @@ runComputer comp =
 
 -- | Fixes the infinite loop by building a list of alternate operations (where JMP has been changed
 -- to NOP for all JMP, appended to where NOPs have been change to JMP for all NOP). It then tries
--- each of these alternate operations until the computer runs without error
+-- each of these alternate operations until the computer runs without error. Note that b/c Haskell
+-- is lazy, it won't even generate all the alternate options until they come up in the loop.
 fixInfLoop :: Computer -> Either String Int
 fixInfLoop comp =
   loop alt
@@ -82,8 +83,8 @@ fixInfLoop comp =
     part1 = map (\(addr, (_, arg, c)) -> (addr,(NOP, arg, c))) 
             $ filter (\(_, (op, _, _)) -> op == JMP) $ toList $ _mem comp
     alt = part1 ++ 
-            map (\(addr, (_, arg, c)) -> (addr,(NOP, arg, c))) 
-                (filter (\(_, (op, _, _)) -> op == JMP) $ toList $ _mem comp)
+            map (\(addr, (_, arg, c)) -> (addr,(JMP, arg, c))) 
+                (filter (\(_, (op, _, _)) -> op == NOP) $ toList $ _mem comp)
     loop [] = Left "No Solution found"
     loop ((k,v):ms) = 
       case runComputer (comp { _mem = insert k v (_mem comp)}) of
