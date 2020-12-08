@@ -6,8 +6,6 @@ import           Data.Map.Strict (Map, fromList, toList, (!))
 import qualified Data.Map.Strict as M (empty, insert, lookup)
 import           Data.Maybe      (mapMaybe)
 
-type Adj       = String
-type Col       = String
 type BagId     = String
 type Rule      = (Int, BagId)
 type Rules     = Map BagId [Rule]
