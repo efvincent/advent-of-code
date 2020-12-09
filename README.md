@@ -17,9 +17,19 @@ Day       Time   Rank  Score       Time   Rank  Score
 ```
 ### Day 9: Encoding Error
 AAARRRGGG... this was one of those cases where one tiny error cost me probably 40 minutes!! 🤦🏾‍♂️ 
-That made this the worst part 1 so far. So annoying. It happened here - this line is generating the cross product of the indexes 5 positions before the target number that's being tested in part 1:
+That made this the worst part 1 so far. So annoying. It happened here in this function from part 1:
 ```haskell
-keys = [(a,b) | a <- [i,j], b <- [i,j], a < b]
+-- | The list of candidates is found by getting the cross product pairs within the range
+-- of `pre` indexes before the current index. Note the condition `, a < b` eliminates cases
+-- where `(a,b) == (b,a)` which we don't need to check b/c the sum would be the same
+candidates :: Preable -> PreCalcMap -> Int -> [Int]
+candidates pre m idx =
+  if idx < pre then [] else
+  map (m !) keys
+  where
+    i = idx - pre
+    j = idx - 1
+    keys = [(a,b) | a <- [i,j], b <- [i,j], a < b]
 ```
 Grrr it's so obvious now. See it?
 The `[i,j]` should be `[i..j]` because I'm generating a range 😢... This is one case where Haskell's legendary type system did not help unfortunately. Perhaps one day when we have dependent types there'll be a way to describe this that's stronger.
