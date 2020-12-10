@@ -21,7 +21,7 @@ That one was EASY! ... and then it was **HARD**. Tired 🥱
 
 Must have been hard for everyone; in spite of the fact that part 2 took me maybe longest of any part 2, still came in 2nd best place ever, so happy with that. Need to clean that code up a bit later.
 
-** Benchmark Part 1 **
+**Benchmark Part 1**
 ```
 time                 236.2 μs   (224.9 μs .. 256.2 μs)
                      0.958 R²   (0.913 R² .. 0.992 R²)
@@ -30,7 +30,7 @@ std dev              40.12 μs   (28.86 μs .. 64.34 μs)
 variance introduced by outliers: 91% (severely inflated)
 ```
 
-** Benchmark Part 2 **
+**Benchmark Part 2**
 ```
 time                 261.4 μs   (256.4 μs .. 269.8 μs)
                      0.979 R²   (0.942 R² .. 0.999 R²)
