@@ -18,21 +18,26 @@ Day       Time   Rank  Score       Time   Rank  Score
 ```
 ### Day 10: Adapter Array
 That one was EASY! ... and then it was **HARD**. Tired 🥱
+
 Must have been hard for everyone; in spite of the fact that part 2 took me maybe longest of any part 2, still came in 2nd best place ever, so happy with that. Need to clean that code up a bit later.
 
 ** Benchmark Part 1 **
+```
 time                 236.2 μs   (224.9 μs .. 256.2 μs)
                      0.958 R²   (0.913 R² .. 0.992 R²)
 mean                 244.6 μs   (234.9 μs .. 257.6 μs)
 std dev              40.12 μs   (28.86 μs .. 64.34 μs)
 variance introduced by outliers: 91% (severely inflated)
+```
 
 ** Benchmark Part 2 **
+```
 time                 261.4 μs   (256.4 μs .. 269.8 μs)
                      0.979 R²   (0.942 R² .. 0.999 R²)
 mean                 265.8 μs   (259.3 μs .. 285.1 μs)
 std dev              35.60 μs   (9.227 μs .. 72.80 μs)
 variance introduced by outliers: 87% (severely inflated)
+```
 
 ### Day 9: Encoding Error
 AAARRRGGG... this was one of those cases where one tiny error cost me probably 40 minutes!! 🤦🏾‍♂️ 
