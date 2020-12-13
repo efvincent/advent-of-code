@@ -27,6 +27,7 @@ dependencies:
 - regex-tdfa
 - criterion
 - extra
+- linear
 
 # library:
 #  source-dirs: src

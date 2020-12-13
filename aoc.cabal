@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: f04455793acf6a19a8e3b272f0f5d759d35f0e7bdd752776d8e1cf4757aa2c0d
+-- hash: b336d501353b1fb6cc086a5a91c46cf4bf674a075ed5f5c197521335006f4474
 
 name:           aoc
 version:        0.1.0.0
@@ -46,6 +46,8 @@ executable aoc-exe
       Y20.Day08
       Y20.Day09
       Y20.Day10
+      Y20.Day11
+      Y20.Day11v2
       Paths_aoc
   hs-source-dirs:
       app
@@ -56,6 +58,7 @@ executable aoc-exe
     , containers
     , criterion
     , extra
+    , linear
     , mtl
     , regex-tdfa
     , split
@@ -76,6 +79,7 @@ test-suite aoc-test
     , containers
     , criterion
     , extra
+    , linear
     , mtl
     , regex-tdfa
     , split

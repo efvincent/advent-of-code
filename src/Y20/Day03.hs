@@ -1,4 +1,4 @@
-module Y20.Day03 where
+module Y20.Day03 (multiStepFile) where
 
 -- Type definitions just make working with the type signatures easier
 -- to read, and don't give any meaningful constraints beyond that

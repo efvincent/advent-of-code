@@ -1,4 +1,4 @@
-module Y18.Day03 where
+module Y18.Day03 () where
 
 data Point = Point { _x ::Int, _y :: Int }
 
