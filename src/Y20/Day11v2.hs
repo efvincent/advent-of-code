@@ -1,4 +1,4 @@
-module Y20.Day11v2 (load1p, load2p) where
+module Y20.Day11v2 (load1p, load2p, fn20d11) where
 
 import qualified Data.Map.Strict as M
 import qualified Data.Set as S

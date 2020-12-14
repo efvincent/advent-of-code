@@ -1,4 +1,4 @@
-module Y19.Day01 where
+module Y19.Day01 (solve19d1, deepFuelFor) where
 
 import Util (fileToIntList, check)
 
@@ -24,7 +24,7 @@ tests =
 solve :: (Int -> Int) -> [Int] -> Int
 solve fn xs = sum [fn x | x <- xs]
 
-ans :: (Int -> Int) -> FilePath -> IO Int
-ans fn filename = do
+solve19d1 :: (Int -> Int) -> FilePath -> IO Int
+solve19d1 fn filename = do
   xs <- fileToIntList filename
   return $ solve fn xs
