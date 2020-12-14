@@ -3,10 +3,22 @@ module Util where
 import Data.List.Split ( splitOn )
 import Data.List (group, sort)
 import Data.Foldable ( Foldable(toList) )
+import Linear.V2(V2(..))
 
+-- | Point used all over the place
+type Point = V2 Int
+
+-- | Multiply a vector by an amount. This should work with normal (*), and does
+-- in the repl, but doesn't in code ... don't know why, don't need to spend time
+-- figuring it out, this works
+(|*) :: Point -> Int -> Point
+(|*) (V2 a b) n = V2 (a * n) (b * n)
+
+-- | Like head but returns Nothing when list is empty
 headMaybe :: [a] -> Maybe a
 headMaybe p = if not (null p) then Just $ head p else Nothing
 
+-- | Calls a function repeatedly with prev run's output until the output stops changing
 stabilize :: Eq t => (t -> t) -> t -> t
 stabilize f = 
   loop 
