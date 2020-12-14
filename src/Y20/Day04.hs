@@ -1,4 +1,4 @@
-module Y20.Day04 where
+module Y20.Day04 (solve20d4,checkRequired,checkRequiredAndValues) where
 import           Data.List.Split (splitOn)
 import           Text.Read       (readMaybe)
 import           Text.Regex.TDFA ((=~))
@@ -54,8 +54,8 @@ checkRequiredAndValues s =
   let s' = map (\[p1,p2] -> (p1,p2)) s in
   all (`elem` map fst s') req && all validateValue s'
 
-solve :: ([[String]] -> Bool) -> String -> IO Int
-solve algo filename = do
+solve20d4 :: ([[String]] -> Bool) -> String -> IO Int
+solve20d4 algo filename = do
   raw <- readFile filename
   pure
     $ length

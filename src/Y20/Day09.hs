@@ -1,4 +1,4 @@
-module Y20.Day09 where
+module Y20.Day09 (solve20d9p1, solve20d9p2, fn20d9) where
 
 import           Data.Map.Strict (Map, fromList, (!))
 

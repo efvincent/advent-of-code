@@ -1,8 +1,8 @@
-module Y20.Day05v1 where
+module Y20.Day05v1 (solve20d5p1v1,solve20d5p2v1,fn20d5v1) where
 import qualified Data.Set as Set
 
-filename :: [Char]
-filename = "./data/20/Day05.txt"
+fn20d5v1 :: [Char]
+fn20d5v1 = "./data/20/Day05.txt"
 
 {-
 whoa ... check this out:
@@ -30,8 +30,8 @@ code r c = r * 8 + c
 findSeat :: [Char] -> Int
 findSeat cs = code (step 'F' 'B' (take 7 cs) 0 127) (step 'L' 'R' (drop 7 cs) 0 7)
 
-solve5 :: String -> IO ()
-solve5 fn = do
+solve20d5p1v1 :: String -> IO ()
+solve20d5p1v1 fn = do
   raw <- readFile fn
   print $ maximum $ map findSeat $ lines raw
 
@@ -49,9 +49,9 @@ findGap [] = 0
 findGap (x:y:_) | y - x == 2 = y-1 
 findGap (_:y:xs) = findGap (y:xs)
 
-solve5b :: IO ()
-solve5b = do
-  raw <- readFile filename
+solve20d5p2v1 :: IO ()
+solve20d5p2v1 = do
+  raw <- readFile fn20d5v1
   let ordered = 
         Set.toAscList
         $ foldr Set.delete (Set.fromList $ map findSeat $ lines raw)

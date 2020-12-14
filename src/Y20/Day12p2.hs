@@ -1,4 +1,4 @@
-module Y20.Day12p2 where
+module Y20.Day12p2 (solve20d12p2) where
 
 import Y20.Day12p1 ( Op(..), dirToDelta, mDist, parseOps )
 import Linear.V2 ( V2(..) )

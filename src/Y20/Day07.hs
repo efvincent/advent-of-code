@@ -1,4 +1,4 @@
-module Y20.Day07 where
+module Y20.Day07 (solve20d7p1,fn20d7) where
 
 import           Data.Function   ((&))
 import           Data.List.Extra (splitOn)

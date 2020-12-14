@@ -1,8 +1,8 @@
-module Y20.Day11v2 where
+module Y20.Day11v2 (load1p, load2p) where
 
 import qualified Data.Map.Strict as M
 import qualified Data.Set as S
-import Util (countTrue, stabilize, headMaybe)
+import Util (countTrue, stabilize)
 import Data.Maybe (mapMaybe)
 import Linear (V2(..))
 type Point = V2 Int

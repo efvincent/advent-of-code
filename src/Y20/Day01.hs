@@ -1,4 +1,4 @@
-module Y20.Day01 where
+module Y20.Day01 (solve20d1p1,solve20d1p2) where
 
 import Util ( fileToIntList )
 
@@ -14,12 +14,12 @@ findTripsThatSumTo v ns =
     [] -> 0
     ((n1,n2,n3):_) -> n1 * n2 * n3
 
-solve :: FilePath -> Int -> IO Int
-solve fn v = do
+solve20d1p1 :: FilePath -> Int -> IO Int
+solve20d1p1 fn v = do
   ns <- fileToIntList fn
   return $ findPairsThatSumTo v ns
 
-solve2 :: FilePath -> Int -> IO Int
-solve2 fn v = do
+solve20d1p2 :: FilePath -> Int -> IO Int
+solve20d1p2 fn v = do
   ns <- fileToIntList fn
   return $ findTripsThatSumTo v ns

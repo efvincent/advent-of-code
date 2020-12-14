@@ -1,4 +1,4 @@
-module Y20.Day02 where
+module Y20.Day02 (solve20d2) where
 
 import Data.List.Split ( splitOn )
 
@@ -27,8 +27,8 @@ solve ss =
   , length $ filter (==True) $ map snd anss)
 
 -- | Solve for data in a file return solution for bolth algos
-solveFor :: String -> IO (Int,Int)
-solveFor filename = do 
+solve20d2 :: String -> IO (Int,Int)
+solve20d2 filename = do 
   raw <- readFile filename
   return $ solve raw
   
