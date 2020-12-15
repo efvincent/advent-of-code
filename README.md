@@ -5,6 +5,11 @@ This is the first year that I'm doing AoC in real time. The only thing that make
 ```
       --------Part 1--------   --------Part 2--------
 Day       Time   Rank  Score       Time   Rank  Score
+ 15   01:51:46   7515      0   01:58:59   6329      0
+ 14   03:09:28   9380      0   18:26:08  20561      0
+ 13       >24h  31407      0       >24h  25555      0
+ 12       >24h  34149      0       >24h  31591      0
+ 11       >24h  31752      0       >24h  32055      0
  10   00:15:11   4386      0   01:35:32   4929      0
   9   01:17:21  10175      0   01:49:11  10261      0
   8   01:01:15   9520      0   01:30:45   8273      0
@@ -16,6 +21,11 @@ Day       Time   Rank  Score       Time   Rank  Score
   2   00:17:50   4007      0   00:38:56   5446      0
   1   00:20:45   3412      0   00:25:13   3229      0
 ```
+
+### Day 15: Rambunctious Recitation
+Day 15's puzzle is one where some optimization is in order. I'm running in 95 seconds right now, and clearly there'd be benefit to higher performing storage I think. I doubt it would get me down to sub-second though. I'll eventually have to search for a better algorithm as I'm sure I'm too brute force on this one. But its done!
+
+_as my stats show, I ran into a delay in days 11-14, basically real life took priority!_ 🙂
 ### Day 10: Adapter Array
 That one was EASY! ... and then it was **HARD**. Tired 🥱
 
