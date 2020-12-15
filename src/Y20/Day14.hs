@@ -32,7 +32,7 @@ toBin n =
 
 fromBin :: Bin -> Int
 fromBin m =
-  foldl (\acc (p,bit) -> acc + (bit * (2^p))) 0 l
+  foldr (\(p,bit) acc -> acc + (bit * (2^p))) 0 l
   where
     l = M.toList m
 
@@ -60,10 +60,10 @@ toMask2 s =
   template = M.fromList rawMask
   indexes = map fst $ filter (\(_,n) -> n == 2) rawMask
   mods = map (zip indexes) $ genBitPermutations $ length indexes
-  masks = foldl (\acc' mod ->  let mask = foldl (\acc (k,v) -> M.insert k v acc) template mod in mask:acc') [] mods
+  masks = foldr (\mod acc' ->  let mask = foldr (\(k,v) acc -> M.insert k v acc) template mod in mask:acc') [] mods
 
 applyMask :: Bin -> Mask -> Bin
-applyMask = foldl (\vals (k,v) -> M.insert k v vals)
+applyMask = foldr (\(k,v) vals -> M.insert k v vals)
 
 parseWrite :: String -> Op
 parseWrite s =
@@ -79,27 +79,27 @@ parseLine toMaskFn s
   | s =~ "mask" = Mask $ toMaskFn $ s =~ "[X01]{36}"
   | s =~ "mem"  = parseWrite s
   
-runOp1 :: State -> Op -> State
-runOp1 s (Mask m) = s { _masks = m }
-runOp1 s@State{_mem=mem, _masks=mask} (Write addr num) = 
+runOp1 :: Op -> State -> State
+runOp1 (Mask m) s = s { _masks = m }
+runOp1 (Write addr num) s@State{_mem=mem, _masks=mask} = 
   s { _mem = M.insert addr (fromBin $ applyMask num $ head mask) mem }
 
-runOp2 :: State -> Op -> State
-runOp2 s (Mask m) = s { _masks = m }
-runOp2 s@State{_mem=mem, _masks=masks } (Write addr num) =
-  s { _mem = foldl doOne mem masks }
+runOp2 :: Op -> State -> State
+runOp2 (Mask m) s  = s { _masks = m }
+runOp2 (Write addr num) s@State{_mem=mem, _masks=masks } =
+  s { _mem = foldr doOne mem masks }
   where
     addrBin = toBin addr
     num' = fromBin num
-    doOne :: Memory -> Mask -> Memory
-    doOne mem' mask =
+    doOne :: Mask -> Memory -> Memory
+    doOne mask mem' =
       let addr' = fromBin $ applyMask addrBin mask
       in M.insert addr' num' mem'
 
-solve :: (String -> [Mask]) -> (State -> Op -> State) -> String -> Int
+solve :: (String -> [Mask]) -> (Op -> State -> State) -> String -> Int
 solve toMask runOp raw =
   let ops = map (parseLine toMask) $ lines raw
-  in let State{_mem=mem} = foldl runOp initState ops
+  in let State{_mem=mem} = foldr runOp initState ops
   in sum $ map snd $ M.toList mem
 
 solve20d14p1 :: IO ()
