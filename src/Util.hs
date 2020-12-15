@@ -4,9 +4,18 @@ import Data.List.Split ( splitOn )
 import Data.List (group, sort)
 import Data.Foldable ( Foldable(toList) )
 import Linear.V2(V2(..))
+import Control.Monad (replicateM)
 
 -- | Point used all over the place
 type Point = V2 Int
+
+-- | Generate a list of list of bits (using ints as bits, could / should use bools)
+-- representing every permutation of bits at that depth
+genBitPermutations :: Num a => Int -> [[a]]
+genBitPermutations depth = 
+  take (2^depth) 
+  $ filter (\l -> length l == depth) 
+  $ concatMap (`replicateM` [0,1]) [1..]
 
 -- | Multiply a vector by an amount. This should work with normal (*), and does
 -- in the repl, but doesn't in code ... don't know why, don't need to spend time
