@@ -1,4 +1,4 @@
-module Y18.Day02 where
+module Y18.Day02 (solve18d2p2, solve18d2p1) where
 
 import           Data.Function   ((&))
 import           Data.List.Extra (sort)
