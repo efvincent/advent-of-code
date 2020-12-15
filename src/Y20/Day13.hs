@@ -1,4 +1,4 @@
-module Y20.Day13 (solve20d13p1) where
+module Y20.Day13 (solve20d13p1, fn20d13) where
 
 import Data.Ord ( comparing ) 
 import Data.List.Split ( splitOn )
