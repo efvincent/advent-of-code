@@ -5,6 +5,7 @@ This is the first year that I'm doing AoC in real time. The only thing that make
 ```
       --------Part 1--------   --------Part 2--------
 Day       Time   Rank  Score       Time   Rank  Score
+ 16   01:15:11   6148      0   13:32:24  15018      0
  15   01:51:46   7515      0   01:58:59   6329      0
  14   03:09:28   9380      0   18:26:08  20561      0
  13       >24h  31407      0       >24h  25555      0
@@ -22,6 +23,14 @@ Day       Time   Rank  Score       Time   Rank  Score
   1   00:20:45   3412      0   00:25:13   3229      0
 ```
 
+### Day 16: Ticket Translation
+Day 16 I found more meticulous than difficult. I was on my way to both parts 1 & 2 inside of 2h, but I made a critical error in interpretation of part 2. As you know from the clue - there were many sample "tickets", each with the same number of fields, and each ticket at each index was for the same field. I incorrectly assumed that there'd only be one range criteria that could fit each field, which was wrong.
+
+When I ran my solution, I exhausted fields before I ran out of indexes, because some indexes matched on more than one field, and they were in effect "greedy" - allocating > 1 field each and leaving too few fields to satisfy all the indexes. I immediately realized my mistake, but by then it was too late to finish the puzzle last night.
+
+The correct approach (or at least the one I took) was for each index to collect all the rules that passed, then to sort the indexes by the number of matching rules. Take the head of that list, and if there's one rule in it, remove that rule from all subsequent indexes, and recurse of the list of remaining indexes. If there's more than one rule, then you'd have to branch into N passes where N is the number of rules that match the index at the head. Only one of those branches should work, the others will come across an index that matches no rule; that branch should be abandoned.
+
+Luckily as I was working through that approach in the repl, I realized that the number of matching rules per index increase monotonically from one to N where N was the number of indexes. This means there's no branching and the `toSingle` function is far simpler.
 ### Day 15: Rambunctious Recitation
 Day 15's puzzle is one where some optimization is in order. I'm running in 95 seconds right now, and clearly there'd be benefit to higher performing storage I think. I doubt it would get me down to sub-second though. I'll eventually have to search for a better algorithm as I'm sure I'm too brute force on this one. But its done!
 

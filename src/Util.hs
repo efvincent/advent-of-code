@@ -9,6 +9,13 @@ import Control.Monad (replicateM)
 -- | Point used all over the place
 type Point = V2 Int
 
+-- | Remove an item from a list. Not efficient, use a map for 
+-- performance intensive applications
+removeItem :: Eq a => a -> [a] -> [a]
+removeItem _ []                 = []
+removeItem x (y:ys) | x == y    = removeItem x ys
+                    | otherwise = y : removeItem x ys
+
 -- | Generate a list of list of bits (using ints as bits, could / should use bools)
 -- representing every permutation of bits at that depth
 genBitPermutations :: Num a => Int -> [[a]]
