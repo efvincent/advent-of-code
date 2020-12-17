@@ -4,6 +4,7 @@ module Y20.Day14 (solve20d14p2, solve20d14p1) where
 import qualified Data.IntMap as M
 import Text.Regex.TDFA ( (=~), AllTextMatches(getAllTextMatches) )
 import Util (genBitPermutations)
+import Data.Char (digitToInt)
 
 type Bin = M.IntMap Int
 type Memory = M.IntMap Int
@@ -42,7 +43,7 @@ toMask1 :: String -> [Mask]
 toMask1 s =
   [filter ((/= -1) . snd)  
     $ zip [35,34..0] 
-    $ map (\c -> if c == 'X' then -1 else read [c]) s]
+    $ map (\c -> if c == 'X' then -1 else digitToInt c) s]
 
 -- | Second interpretation of the mask. 0 is unused and ignored. X is meant to 
 -- expand into both 1 and 0, therefore toMask2 expands to a list of masks to be
@@ -56,9 +57,9 @@ toMask2 s =
     $ zip [35,34..0] 
     $ map (\case 
         'X' -> 2
-        c -> read [c]) s
+        c -> digitToInt c) s
   template = M.fromList rawMask
-  indexes = map fst $ filter (\(_,n) -> n == 2) rawMask
+  indexes = map fst $ filter ((==2) . snd) rawMask
   mods = map (zip indexes) $ genBitPermutations $ length indexes
   masks = foldl (\acc' mod ->  let mask = foldl (\acc (k,v) -> M.insert k v acc) template mod in mask:acc') [] mods
 
