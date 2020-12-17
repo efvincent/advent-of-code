@@ -14,11 +14,11 @@ so we want to solve a system of equations where
 (t + 6) `mod` 31 == 0
 (t + 7) `mod` 19 == 0
 -}
-import Data.Foldable (Foldable(foldl'))
 import Data.List.Split (splitOn)
 import Data.Bifunctor (Bifunctor(second))
-import Debug.Trace
+import Debug.Trace ( trace )
 
+t :: [Char]
 t = "939\n7,13,x,x,59,x,31,19"
 
 parse :: String -> [(Int,Int)]
