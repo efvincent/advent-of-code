@@ -5,6 +5,7 @@ This is the first year that I'm doing AoC in real time. The only thing that make
 ```
       --------Part 1--------   --------Part 2--------
 Day       Time   Rank  Score       Time   Rank  Score
+ 17   02:23:08   5038      0   02:35:27   4688      0
  16   01:15:11   6148      0   13:32:24  15018      0
  15   01:51:46   7515      0   01:58:59   6329      0
  14   03:09:28   9380      0   18:26:08  20561      0
@@ -23,6 +24,10 @@ Day       Time   Rank  Score       Time   Rank  Score
   1   00:20:45   3412      0   00:25:13   3229      0
 ```
 
+### Day 17: Conway Cubes
+This one wasn't bad, I'd call it a 3-dimensional game of life. I improved upon the earlier game of life algo by using a set rather than actual characters, but other than that pretty straight forward. Still not the fastest with Haskell, could have gone quicker. 
+
+Part 2 was an easy extension of part 1 - just taken to the 4th dimension. Not bad so long as you don't worry about picturing it. Although I did take a very inelegant approach to part 2, copying the entire part 1 and tweaking each function for the extra dimension. A fun exercise would be to parameterize the solution on dimension...
 ### Day 16: Ticket Translation
 Day 16 I found more meticulous than difficult. I was on my way to both parts 1 & 2 inside of 2h, but I made a critical error in interpretation of part 2. As you know from the clue - there were many sample "tickets", each with the same number of fields, and each ticket at each index was for the same field. I incorrectly assumed that there'd only be one range criteria that could fit each field, which was wrong.
 
