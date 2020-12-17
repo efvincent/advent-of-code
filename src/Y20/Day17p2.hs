@@ -4,7 +4,6 @@ import qualified Data.Set as S
 import Linear (V2(..), V4(..))
 
 type Point = V4 Int
-
 type Cube =  S.Set Point 
 
 t1 :: [Char]
@@ -45,9 +44,7 @@ expand (V4 (V2 x1 x2) (V2 y1 y2) (V2 z1 z2) (V2 w1 w2)) =
 
 check :: Cube -> Point -> Bool
 check c p =
-  let ns = neighbors p in
-  let ns' = filter id $ map (`S.member` c) ns in
-  let l = length ns' in
+  let l = length . filter id . map (`S.member` c) . neighbors $ p in
   if S.member p c then l == 2 || l == 3 else l == 3
 
 step :: Cube -> Cube
@@ -58,11 +55,7 @@ step c =
     todo = [V4 x y z w | x <- [x1..x2], y <- [y1..y2], z <- [z1..z2], w <- [w1..w2]]
 
 run :: (Num a, Enum a) => a -> Cube -> Int
-run n c =
-  length $ foldl (\acc _ -> step acc) c [1..n]
+run n c = length $ foldl (\acc _ -> step acc) c [1..n]
 
 solve20d17p2 :: IO ()
-solve20d17p2 = do
-  print $ run 6 $ initCube t2
-
-
+solve20d17p2 = print $ run 6 $ initCube t2

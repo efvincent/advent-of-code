@@ -4,7 +4,6 @@ import qualified Data.Set as S
 import Linear (V2(..), V3(..))
 
 type Point = V3 Int
-
 type Cube =  S.Set Point 
 
 t1 :: [Char]
@@ -43,24 +42,18 @@ expand (V3 (V2 x1 x2) (V2 y1 y2) (V2 z1 z2)) =
 
 check :: Cube -> Point -> Bool
 check c p =
-  let ns = neighbors p in
-  let ns' = filter id $ map (`S.member` c) ns in
-  let l = length ns' in
+  let l = length . filter id . map (`S.member` c) . neighbors $ p in
   if S.member p c then l == 2 || l == 3 else l == 3
 
 step :: Cube -> Cube
 step c = 
-  foldl (\acc p -> if check c p then S.insert p acc else S.delete p acc) S.empty todo -- (trace (show todo)todo)
+  foldl (\acc p -> if check c p then S.insert p acc else S.delete p acc) S.empty todo
   where 
     (V3 (V2 x1 x2) (V2 y1 y2) (V2 z1 z2)) = expand $ bounds c
     todo = [V3 x y z | x <- [x1..x2], y <- [y1..y2], z <- [z1..z2]]
 
 run :: (Num a, Enum a) => a -> Cube -> Int
-run n c =
-  length $ foldl (\acc _ -> step acc) c [1..n]
+run n c = length $ foldl (\acc _ -> step acc) c [1..n]
 
 solve20d17p1 :: IO ()
-solve20d17p1 = do
-  print $ run 6 $ initCube t2
-
-
+solve20d17p1 = print $ run 6 $ initCube t2
