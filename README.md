@@ -5,6 +5,7 @@ This is the first year that I'm doing AoC in real time. The only thing that make
 ```
       --------Part 1--------   --------Part 2--------
 Day       Time   Rank  Score       Time   Rank  Score
+ 18   04:42:13   8473      0   16:41:26  14852      0
  17   02:23:08   5038      0   02:35:27   4688      0
  16   01:15:11   6148      0   13:32:24  15018      0
  15   01:51:46   7515      0   01:58:59   6329      0
@@ -23,6 +24,15 @@ Day       Time   Rank  Score       Time   Rank  Score
   2   00:17:50   4007      0   00:38:56   5446      0
   1   00:20:45   3412      0   00:25:13   3229      0
 ```
+
+### Day 18: Operation Order
+Expression parser... I did part 1 ad-hoc, and it was cumbersome but doable. That approach was bug ridden and difficult, and left me too tired for part 2. Picked it up the next evening, and this time decided to take my time and try using a parser built as part of Chapter 13 of Graham Hutton's book - Programming in Haskell. 
+
+In that chapter he walks us through building a parser combinator library from scratch, and it's a really good exercise. I haven't gone through it in more than a year and I've completely forgotten everything about it, but that's why I'm doing AoC in Haskell.
+
+Using a parser combinator, part 2 is cake. But that's only because there's clear operator precedence. For part 1, it wouldn't work because it considers `+` and `*` of equal precedence, and therefore is free to evaluate them in what amounts to backwards order, due to the way the parser recurses and then evaluates.
+
+So my manual method works fine in part 1, and a proper parser is good for part 2. It'll be an interesting exercise to move to [Megaparsec](https://hackage.haskell.org/package/megaparsec) which is the parser library of choice, and see what I can do with that.
 
 ### Day 17: Conway Cubes
 This one wasn't bad, I'd call it a 3-dimensional game of life. I improved upon the earlier game of life algo by using a set rather than actual characters, but other than that pretty straight forward. Still not the fastest with Haskell, could have gone quicker. 
