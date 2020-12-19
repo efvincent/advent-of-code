@@ -5,6 +5,7 @@ This is the first year that I'm doing AoC in real time. The only thing that make
 ```
       --------Part 1--------   --------Part 2--------
 Day       Time   Rank  Score       Time   Rank  Score
+ 19   01:49:16   2950      0          -      -      -
  18   04:42:13   8473      0   16:41:26  14852      0
  17   02:23:08   5038      0   02:35:27   4688      0
  16   01:15:11   6148      0   13:32:24  15018      0
@@ -25,6 +26,10 @@ Day       Time   Rank  Score       Time   Rank  Score
   1   00:20:45   3412      0   00:25:13   3229      0
 ```
 
+### Day 19: Monster Messages
+This puzzle has you evaluate nested "rules" to build a predicate that can be used to test input data, then count the number of items that pass the predicate. The predicate is most obviously a simple, if absurdly long, regular expression. Build that, then fold it over the test cases and done.
+
+Part 2 I haven't gotten to - for alas I'm am completely cached; this one is for tomorrow.
 ### Day 18: Operation Order
 Expression parser... I did part 1 ad-hoc, and it was cumbersome but doable. That approach was bug ridden and difficult, and left me too tired for part 2. Picked it up the next evening, and this time decided to take my time and try using a parser built as part of Chapter 13 of Graham Hutton's book - Programming in Haskell. 
 
