@@ -9,7 +9,7 @@ type Rules = M.IntMap Rule
 data Rule = Seq [M.Key]
           | Or [M.Key] [M.Key]
           | Match Char
-          deriving Show
+          deriving (Eq, Show)
 
 fn :: [Char]
 fn = "./Data/20/Day19.txt"
@@ -64,32 +64,36 @@ eval rm =
         Seq ks     -> foldl (\acc k -> acc ++ go k) "" ks
         Or lks rks -> "(" ++ concatMap go lks ++ "|" ++ concatMap go rks ++ ")"
 
-test :: Rules -> String -> Bool
+pall :: Show a => [a] -> IO ()
+pall [] = return ()
+pall (x:xs) = do
+  print x
+  pall xs
+
+test :: Rules -> String -> Either () ([Rule], String)
 test rm candidate =
-  case go 0 candidate of
-    Right [] -> True
-    _ -> False
+  go [] 0 candidate 
   where
-    matchSeq :: [M.Key] -> String -> Either () String
-    matchSeq [] s = Right s 
-    matchSeq (x:xs) s = 
-      case go x s of
-        Right s' -> matchSeq xs s'
+    matchSeq :: [Rule] -> [M.Key] -> String -> Either () ([Rule],String)
+    matchSeq rs [] s = Right (rs,s) 
+    matchSeq rs (x:xs) s = 
+      case go rs x s of
+        Right (rs, s') -> matchSeq rs xs s'
         Left () -> Left ()
     
-    orSeq :: [M.Key] -> [M.Key] -> String -> Either () String
-    orSeq s1 s2 s =
-      case matchSeq s1 s of
-        Left () -> matchSeq s2 s
+    orSeq :: [Rule] -> [M.Key] -> [M.Key] -> String -> Either () ([Rule], String)
+    orSeq rs s1 s2 s =
+      case matchSeq rs s1 s of
+        Left () -> matchSeq rs s2 s
         Right s' -> Right s'
 
-    go :: M.Key -> String -> Either () String
-    go _ [] = Right ""
-    go id s@(c:cs) =
+    go :: [Rule] -> M.Key -> String -> Either () ([Rule],String)
+    go rs _ [] = Right (rs,"")
+    go rs id s@(c:cs) =
       case rm M.! id of
-        Seq ids            -> matchSeq ids s
-        Or left right      -> orSeq left right s
-        Match c' | c' == c -> Right cs
+        Seq ids            -> matchSeq rs ids s
+        Or left right      -> orSeq rs left right s
+        Match c' | c' == c -> Right (Match c':rs, cs)
         Match c'           -> Left ()
                         
 modForP2 :: Rules -> Rules
@@ -103,24 +107,24 @@ solveV1 :: Rules -> [String] -> Int
 solveV1 rm = length . filter id . map (=~ eval rm)
 
 solveV2 :: Rules -> [String] -> Int
-solveV2 rm = length . filter id . map (test rm) 
+solveV2 rm = length . filter (\t -> t /= Left ()) . map (test rm) 
 
-psolveV2 :: Rules -> [String] -> [String]
-psolveV2 rm = filter (test rm)
+psolveV2 :: Rules -> [String] -> [Either () ([Rule], String)]
+psolveV2 rm = filter (\t -> t /= Left ()) . map (test rm)
 
 solve20d19p1 :: FilePath -> IO ()
 solve20d19p1 fn = do
   raw <- readFile fn
   print $ uncurry solveV1 $ parseRaw raw
 
-solve20d19p1v2 :: FilePath -> IO ()
-solve20d19p1v2 fn = do
-  raw <- readFile fn
-  let (rm, tests) = parseRaw raw 
-  print $ length . filter id . map (test rm) $ tests
+-- solve20d19p1v2 :: FilePath -> IO ()
+-- solve20d19p1v2 fn = do
+--   raw <- readFile fn
+--   let (rm, tests) = parseRaw raw 
+--   print $ length . filter id . map (test rm) $ tests
 
-solve20d19p2v2 :: FilePath -> IO ()
-solve20d19p2v2 fn = do
-  raw <- readFile fn
-  let (rm, tests) = parseRaw raw 
-  print $ length . filter id . map (test (modForP2 rm)) $ tests  
+-- solve20d19p2v2 :: FilePath -> IO ()
+-- solve20d19p2v2 fn = do
+--   raw <- readFile fn
+--   let (rm, tests) = parseRaw raw 
+--   print $ length . filter id . map (test (modForP2 rm)) $ tests  
