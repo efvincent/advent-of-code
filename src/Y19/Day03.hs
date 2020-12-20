@@ -1,4 +1,4 @@
-module Y19.Day03 where
+module Y19.Day03 (solve19day03p1) where
 
 import Util (fileOfLinesOfCSVStringsToLists)
 import qualified Data.Set as Set
@@ -124,8 +124,8 @@ closestIntersect raw1 raw2 =
 --   let segs2 = buildSegments [] $ map toIns raw2 in  
 --   let allInters = concat [intersects s1 s2 | s1 <- segs1, s2 <- segs2] in
 
-solvePart1 :: FilePath -> IO (Maybe Int)
-solvePart1 filename = do
+solve19day03p1 :: FilePath -> IO (Maybe Int)
+solve19day03p1 filename = do
   raw <- fileOfLinesOfCSVStringsToLists filename
   return $
     case raw of

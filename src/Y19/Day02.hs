@@ -1,4 +1,4 @@
-module Y19.Day02 where
+module Y19.Day02 (solve19day02p2, solve19day02p1) where
 
 import Data.IntMap.Strict ( (!?), fromList, insert, IntMap )
 import Data.List (sortBy)
@@ -117,16 +117,16 @@ test =
 
 -- | Given a file path, parse the raw memory from the file and run the computer with the
 -- pre-specified (noun,verb) pair of 12,2 from the advent question
-solvePart1 :: FilePath -> IO Int
-solvePart1 filename = do
+solve19day02p1 :: FilePath -> IO Int
+solve19day02p1 filename = do
   raw <- fileOfCSVToIntList filename
   return $ initAndRun (Just (12,2)) raw
 
 partTwoTarget :: Int
 partTwoTarget = 19690720
 
-solvePart2 :: FilePath -> Int -> IO (Int, Int, Int, Int)
-solvePart2 filename target = do
+solve19day02p2 :: FilePath -> Int -> IO (Int, Int, Int, Int)
+solve19day02p2 filename target = do
   raw <- fileOfCSVToIntList filename
   -- assuming the solution will be closer to the middle value than the extremes, sort by
   -- the net distance from the midpoint tuple. Roughly 87% savings in cases, 85% savings
