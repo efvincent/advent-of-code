@@ -23,6 +23,24 @@ t2 = "42: 9 14 | 10 1\n9: 14 27 | 1 26\n10: 23 14 | 28 1\n1: \"a\"\n11: 42 31\n5
 a2 :: [Char]
 a2 = "bbabbbbaabaabba\nbabbbbaabbbbbabbbbbbaabaaabaaa\naaabbbbbbaaaabaababaabababbabaaabbababababaaa\nbbbbbbbaaaabbbbaaabbabaaa\nbbbababbbbaaaaaaaabbababaaababaabab\nababaaaaaabaaab\nababaaaaabbbaba\nbaabbaaaabbaaaababbaababb\nabbbbabbbbaaaababbbbbbaaaababb\naaaaabbaabaaaaababaa\naaaabbaabbaaaaaaabbbabbbaaabbaabaaa\naabbbbbaabbbaaaaaabbbbbababaaaaabbaaabba"
 
+xtra :: [Char]
+xtra = "aaaabbaaaabbaaa"
+
+xtra' :: [Either a ([Char], ([(Integer, Rule)], [Char]))]
+xtra' = [Right (xtra,([(1,Match 'a'),(1,Match 'a'),(1,Match 'a'),(14,Match 'b'),(14,Match 'b'),(1,Match 'a'),(1,Match 'a'),(1,Match 'a'),(1,Match 'a'),(14,Match 'b'),(14,Match 'b'),(1,Match 'a'),(1,Match 'a'),(1,Match 'a'),(1,Match 'a')],""))]
+
+(rm, tests) = parseRaw t2
+rm' = modForP2 rm
+s3 = solveV3 rm' tests
+
+s2 :: [Either () (String, ([(Int, M.Key, Rule, String)], String))]
+s2 = psolveV2 rm' tests
+s2' = filter (\(Right (s,_)) -> s == "aaaabbaaaabbaaa") s2
+s2'' :: [(Int, M.Key, Rule, String)]
+Right (_, (s2'',_)) = head s2'
+
+y = map (\(d, id, r, s) -> (take d $ cycle "..", id, r, s)) s2''
+
 parseMatchRule :: String -> Rule
 parseMatchRule s = 
   let s' = s =~ "[a-z]" :: String
@@ -70,30 +88,83 @@ pall (x:xs) = do
   print x
   pall xs
 
-test :: Rules -> String -> Either () ([Rule], String)
-test rm candidate =
-  go [] 0 candidate 
+runTest :: Rules -> String -> Either () String
+runTest rm s =
+  case go 0 s of
+    Right "" -> Right ""
+    _ -> Left ()
   where
-    matchSeq :: [Rule] -> [M.Key] -> String -> Either () ([Rule],String)
-    matchSeq rs [] s = Right (rs,s) 
-    matchSeq rs (x:xs) s = 
-      case go rs x s of
-        Right (rs, s') -> matchSeq rs xs s'
+
+    runMatch :: Char -> String -> Either () String
+    runMatch _ [] = Left ()
+    runMatch c' (c:cs)
+      | c' == c   = Right cs
+      | otherwise = Left ()
+
+    runSeq :: [M.Key] -> String -> Either () String
+    runSeq [] s = Right s
+    runSeq _ [] = Left ()
+    runSeq (id:ids) s =
+      case go id s of
+        Right s' -> runSeq ids s'
+        Left () -> Left ()
+
+    trace' lefts rights = 
+      if isRight lefts && isRight rights then
+        let (Right ls) = lefts in
+        let (Right rs) = rights in
+        if length ls == length rs then "OK"
+        else ("  *** " ++ show (length ls) ++ " vs " ++ show (length rs))
+      else "OK"
+
+    runOr :: [M.Key] -> [M.Key] -> String -> Either () String
+    runOr lIds rIds s =
+      let lefts  = runSeq lIds s in
+      let rights = runSeq rIds s in
+        if isRight (trace (trace' lefts rights) rights) then rights
+        else if isRight lefts then lefts
+        else Left ()
+
+      -- case runSeq lIds s of
+      --   Right s' -> Right s'
+      --   Left () -> runSeq rIds s
+
+    go _ [] = Left ()
+    go id s =
+      case rm M.! id of
+        Match c      -> runMatch c s      
+        Seq ids      -> runSeq ids s
+        Or lIds rIds -> runOr lIds rIds s
+
+test :: Rules -> String -> Either () (String,([(Int, M.Key,Rule,String)], String))
+test rm candidate  =
+  case go [] 0 0 candidate of
+    Right r -> Right (candidate, r)
+    Left () -> Left ()
+  where
+    matchSeq :: [(Int, M.Key,Rule,String)] -> Int -> [M.Key] -> String -> Either () ([(Int,M.Key,Rule,String)],String)
+    matchSeq rs dp [] s = Right (rs,s) 
+    matchSeq rs dp (x:xs) s = 
+      case go rs (dp+1) x s of
+        Right (rs, s') -> matchSeq rs (dp+1) xs s'
         Left () -> Left ()
     
-    orSeq :: [Rule] -> [M.Key] -> [M.Key] -> String -> Either () ([Rule], String)
-    orSeq rs s1 s2 s =
-      case matchSeq rs s1 s of
-        Left () -> matchSeq rs s2 s
-        Right s' -> Right s'
+    orSeq :: [(Int, M.Key,Rule,String)] -> Int -> [M.Key] -> [M.Key] -> String -> Either () ([(Int,M.Key,Rule,String)],String)
+    orSeq rs dp s1 s2 s =
+      if null s then Left () else
+        case matchSeq rs (dp+1) s1 s of
+          Left () -> matchSeq rs (dp+1) s2 s
+          Right s' -> Right s'
 
-    go :: [Rule] -> M.Key -> String -> Either () ([Rule],String)
-    go rs _ [] = Right (rs,"")
-    go rs id s@(c:cs) =
+    go :: [(Int, M.Key,Rule,String)] -> Int -> M.Key -> String -> Either () ([(Int,M.Key,Rule,String)],String)
+    go rs dp _ [] = Right (rs,"")
+    go rs dp id s@(c:cs) =
       case rm M.! id of
-        Seq ids            -> matchSeq rs ids s
-        Or left right      -> orSeq rs left right s
-        Match c' | c' == c -> Right (Match c':rs, cs)
+        Seq ids            -> case matchSeq rs (dp+1) ids s of 
+                                    Right (results,s) -> Right ((dp, id, Seq ids,s):results, s); _ -> Left ()
+        Or left right      -> case orSeq rs (dp+1) left right s of
+                                    Right (results,s) -> Right ((dp, id, Or left right,s):results, s); _ -> Left ()
+        Match c' | c' == c -> Right ((dp, id,Match c',s):rs, cs)
         Match c'           -> Left ()
                         
 modForP2 :: Rules -> Rules
@@ -106,11 +177,38 @@ modForP2 rm =
 solveV1 :: Rules -> [String] -> Int
 solveV1 rm = length . filter id . map (=~ eval rm)
 
+psolveV1 :: Rules -> [String] -> [String]
+psolveV1 rm = filter (=~ eval rm)
+
 solveV2 :: Rules -> [String] -> Int
 solveV2 rm = length . filter (\t -> t /= Left ()) . map (test rm) 
 
-psolveV2 :: Rules -> [String] -> [Either () ([Rule], String)]
-psolveV2 rm = filter (\t -> t /= Left ()) . map (test rm)
+isLeft :: Either a b -> Bool
+isLeft (Left _) = True
+isLeft _ = False
+
+isRight :: Either a b -> Bool
+isRight  = not . isLeft
+
+numTrue :: [Bool] -> Int
+numTrue = length . filter id 
+
+numRight :: [Either a b] -> Int
+numRight = numTrue . map isRight
+
+solveV3 :: Rules -> [String] -> Int
+solveV3 rm = numRight . map (runTest rm)
+
+psolveV3 :: Rules -> [String] -> [Either () String]
+psolveV3 rm = filter isRight . map (runTest rm)
+
+-- psolveV2 :: Rules -> [String] -> [Either () (String, [(Int, M.Key,Rule,String)], String)]
+psolveV2 :: M.IntMap Rule -> [String] -> [Either () (String, ([(Int, M.Key,Rule,String)], String))]
+psolveV2 rm tests = 
+  j
+  where
+    m = map (test rm) tests
+    j = filter (\t -> t /= Left ()) m
 
 solve20d19p1 :: FilePath -> IO ()
 solve20d19p1 fn = do
