@@ -36,9 +36,9 @@ Well... I don't know if I was on a wild goose chase and there was a way easier w
 
 Each rule is a sum type (aka Discriminated Union in F#, or more generally a sum type). 
 ```haskell
-data Rule = Seq [M.Key]         -- ^| Must evaluate all rules in order
-          | Or [M.Key] [M.Key]  -- ^| Must evaluate either the left or right set of rules in order
-          | Match Char          -- ~| Matches exactly one character
+data Rule = Seq [M.Key]         -- ^ Must evaluate all rules in order
+          | Or [M.Key] [M.Key]  -- ^ Must evaluate either left or right rules in order
+          | Match Char          -- ^ Matches exactly one character
           deriving (Eq, Show)
 ```
 I've left out parsing the input, that's not the tricky part.
