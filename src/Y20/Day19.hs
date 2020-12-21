@@ -9,9 +9,9 @@ import Data.Maybe (catMaybes)
 import Debug.Trace
 
 type Rules = M.IntMap Rule
-data Rule = Seq [M.Key]         -- ^| Must evaluate all rules in order
-          | Or [M.Key] [M.Key]  -- ^| Must evaluate either the left or right set of rules in order
-          | Match Char          -- ~| Matches exactly one character
+data Rule = Seq [M.Key]         -- ^ Must evaluate all rules in order
+          | Or [M.Key] [M.Key]  -- ^ Must evaluate either left or right rules in order
+          | Match Char          -- ^ Matches exactly one character
           deriving (Eq, Show)
 
 fn :: String

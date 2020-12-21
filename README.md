@@ -5,7 +5,7 @@ This is the first year that I'm doing AoC in real time. The only thing that make
 ```
       --------Part 1--------   --------Part 2--------
 Day       Time   Rank  Score       Time   Rank  Score
- 19   01:49:16   2950      0          -      -      -
+ 19   01:49:16   2950      0       >24h  13173      0
  18   04:42:13   8473      0   16:41:26  14852      0
  17   02:23:08   5038      0   02:35:27   4688      0
  16   01:15:11   6148      0   13:32:24  15018      0
