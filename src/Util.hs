@@ -9,6 +9,25 @@ import Control.Monad (replicateM)
 -- | Point used all over the place
 type Point = V2 Int
 
+printAll :: Show a => [a] -> IO ()
+printAll [] = return ()
+printAll (x:xs) = do
+  print x
+  printAll xs
+
+isLeft :: Either a b -> Bool
+isLeft (Left _) = True
+isLeft _ = False
+
+isRight :: Either a b -> Bool
+isRight  = not . isLeft
+
+numTrue :: [Bool] -> Int
+numTrue = length . filter id 
+
+numRight :: [Either a b] -> Int
+numRight = numTrue . map isRight
+
 -- | Remove an item from a list. Not efficient, use a map for 
 -- performance intensive applications
 removeItem :: Eq a => a -> [a] -> [a]
