@@ -9,12 +9,12 @@ import Data.Maybe (catMaybes)
 import Debug.Trace
 
 type Rules = M.IntMap Rule
-data Rule = Seq [M.Key]
-          | Or [M.Key] [M.Key]
-          | Match Char
+data Rule = Seq [M.Key]         -- ^| Must evaluate all rules in order
+          | Or [M.Key] [M.Key]  -- ^| Must evaluate either the left or right set of rules in order
+          | Match Char          -- ~| Matches exactly one character
           deriving (Eq, Show)
 
-fn :: [Char]
+fn :: String
 fn = "./Data/20/Day19.txt"
 
 parseMatchRule :: String -> Rule
@@ -22,7 +22,7 @@ parseMatchRule s =
   let s' = s =~ "[a-z]" :: String
   in Match . head $ s'
 
-parseIdList :: [Char] -> [M.Key]
+parseIdList :: String -> [M.Key]
 parseIdList = map read . filter (/="") . splitOn " " 
 
 parseIdListRule :: String -> Rule
@@ -54,7 +54,14 @@ runTest rm candidate =
   -- then there's at least one path to a result for the candidate
   any null (go 0 [candidate])
   where
-
+    go :: M.Key -> [String] -> [String]
+    go _ [] = []
+    go id ss =
+      case rm M.! id of
+        Match c      -> concatMap (runMatch c) ss      
+        Seq ids      -> runSeq ids ss
+        Or lIds rIds -> runOr lIds rIds ss
+        
     runMatch :: Char -> String -> [String]
     runMatch _ [] = []
     runMatch c' (c:cs)
@@ -70,15 +77,7 @@ runTest rm candidate =
 
     runOr :: [M.Key] -> [M.Key] -> [String] -> [String]
     runOr lIds rIds ss = runSeq lIds ss ++ runSeq rIds ss
-
-    go :: M.Key -> [String] -> [String]
-    go _ [] = []
-    go id ss =
-      case rm M.! id of
-        Match c      -> concatMap (runMatch c) ss      
-        Seq ids      -> runSeq ids ss
-        Or lIds rIds -> runOr lIds rIds ss
-                        
+            
 part2Mod :: Rules -> Rules
 part2Mod rm =
   let (k8,v8)   = parseRule "8: 42 | 42 8" in
@@ -86,14 +85,14 @@ part2Mod rm =
   let rm' = M.insert k8 v8 rm in
   M.insert k11 v11 rm'
 
-solve20d19p1 :: FilePath -> IO ()
-solve20d19p1 fn = do
+solve20d19p1 :: IO ()
+solve20d19p1 = do
   raw <- readFile fn
   let (rules, tests) = parseRaw raw
   print $ length . filter id . map (runTest rules) $ tests
 
-solve20d19p2 :: FilePath -> IO ()
-solve20d19p2 fn = do
+solve20d19p2 :: IO ()
+solve20d19p2 = do
   raw <- readFile fn
   let (rm, tests) = parseRaw raw 
   print $ length . filter id . map (runTest (part2Mod rm)) $ tests  

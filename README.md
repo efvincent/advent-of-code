@@ -30,6 +30,76 @@ Day       Time   Rank  Score       Time   Rank  Score
 This puzzle has you evaluate nested "rules" to build a predicate that can be used to test input data, then count the number of items that pass the predicate. The predicate is most obviously a simple, if absurdly long, regular expression. Build that, then fold it over the test cases and done.
 
 Part 2 I haven't gotten to - for alas I'm am completely cached; this one is for tomorrow.
+
+#### Day 19: Part 2
+Well... I don't know if I was on a wild goose chase and there was a way easier way to do this, but after probably 4h on and off pondering, doodling, and debugging, I've finally got it down. The end result is far better than what I did in part 1 - assembling regex, which wouldn't work for part 2 anyway. Some snippets to explain:
+
+Each rule is a sum type (aka Discriminated Union in F#, or more generally a sum type). 
+```haskell
+data Rule = Seq [M.Key]         -- ^| Must evaluate all rules in order
+          | Or [M.Key] [M.Key]  -- ^| Must evaluate either the left or right set of rules in order
+          | Match Char          -- ~| Matches exactly one character
+          deriving (Eq, Show)
+```
+I've left out parsing the input, that's not the tricky part.
+
+##### Main Test Function
+```haskell
+runTest :: Rules -> String -> Bool
+runTest rm candidate =
+  -- if any of the results is null (ie ""), that means it has no "leftovers", 
+  -- then there's at least one path to a result for the candidate
+  any null (go 0 [candidate])
+  where
+    go :: M.Key -> [String] -> [String]
+    go _ [] = []
+    go id ss =
+      case rm M.! id of
+        Match c      -> concatMap (runMatch c) ss      
+        Seq ids      -> runSeq ids ss
+        Or lIds rIds -> runOr lIds rIds ss
+        
+    runMatch :: Char -> String -> [String]
+    runMatch _ [] = []
+    runMatch c' (c:cs)
+      | c' == c   = [cs]
+      | otherwise = []
+
+    runSeq :: [M.Key] -> [String] -> [String]
+    runSeq [] ss = ss
+    runSeq (id:ids) ss =
+      case go id ss of
+        [] -> []
+        ss' -> runSeq ids ss'
+
+    runOr :: [M.Key] -> [M.Key] -> [String] -> [String]
+    runOr lIds rIds ss = runSeq lIds ss ++ runSeq rIds ss
+```
+
+As is convention in Haskell, the `go` function is the recursive loop for the `runTest` function (I've only just learned about this convention, I had always used `loop` in F# and Haskell to date). The key insight that I finally reached is that `go` takes a `M.Key`, which is the key to the map of rules, and a **LIST** of `String` which are the possible remaining strings to test. The reason it has to be a list is because when we get to the `Or [M.Key] [M.Key]` type rule, _both_ branches may match! If that happens, there are two possible paths to continue down...
+
+I had missed this possibility, and was only checking the second path if the first didn't succeed. This works in cases where only one case succeeds, and in cases where both cases succeed and you happen to get lucky and the first path is ultimately successful. But in the real data, there are several cases where the `Or` produces two results and the second one is part of the eventual solution.  It took me too long to see that possibility.
+
+Anyway, from `go` we look up the rule in the map, then hand off to a small function to handle each of the different `Rule` cases. It's reasonably self explanatory from there. Whew.
+
+**Benchmark Part 1**
+```
+time                 119.5 ms   (118.2 ms .. 121.6 ms)
+                     1.000 R²   (1.000 R² .. 1.000 R²)
+mean                 118.1 ms   (117.2 ms .. 119.1 ms)
+std dev              1.392 ms   (1.060 ms .. 1.720 ms)
+variance introduced by outliers: 11% (moderately inflated)
+```
+
+**Benchmark Part 2**
+```
+time                 514.1 ms   (510.9 ms .. 520.0 ms)
+                     1.000 R²   (1.000 R² .. 1.000 R²)
+mean                 514.0 ms   (512.9 ms .. 514.8 ms)
+std dev              1.240 ms   (726.4 μs .. 1.529 ms)
+variance introduced by outliers: 19% (moderately inflated)
+```
+
 ### Day 18: Operation Order
 Expression parser... I did part 1 ad-hoc, and it was cumbersome but doable. That approach was bug ridden and difficult, and left me too tired for part 2. Picked it up the next evening, and this time decided to take my time and try using a parser built as part of Chapter 13 of Graham Hutton's book - Programming in Haskell. 
 
