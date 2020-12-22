@@ -69,6 +69,7 @@ parseRaw raw =
 getP :: Block -> Point -> Char
 getP b (V2 x y) = (IM.! y) (_grid b) IM.! x 
 
+solve20d20p1 :: FilePath -> IO ()
 solve20d20p1 fn = do
   raw <- readFile fn
   let bm = parseRaw raw in
