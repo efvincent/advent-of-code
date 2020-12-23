@@ -1,3 +1,8 @@
+---
+title: Advent of Code 2020
+author: Eric F. Vincent
+...
+
 # Advent of Code 2020!
 This is the first year that I'm doing AoC in real time. The only thing that makes this possible is my chronically bad sleeping habits and remote work. I can still get 6-7h sleep after doing these. Not sure how long that will last...
 ## Running Statistics
