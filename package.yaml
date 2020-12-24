@@ -29,6 +29,7 @@ dependencies:
 - extra
 - linear
 - megaparsec
+- data-clist
 
 # library:
 #  source-dirs: src

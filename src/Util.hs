@@ -4,7 +4,15 @@ import Data.List.Split ( splitOn )
 import Data.List (group, sort)
 import Data.Foldable ( Foldable(toList) )
 import Linear.V2(V2(..))
-import Control.Monad (replicateM)
+import Data.Set (Set) 
+import qualified Data.Set as S
+import Data.Map (Map)
+import qualified Data.Map as M
+import           Control.Monad
+import           Control.Monad.ST
+import           Control.Monad.State
+import Data.Traversable
+import Data.List.Extra (sortOn)
 
 -- | Point used all over the place
 type Point = V2 Int
@@ -27,6 +35,17 @@ numTrue = length . filter id
 
 numRight :: [Either a b] -> Int
 numRight = numTrue . map isRight
+
+-- | Given a map of @k@ to possible @a@s for that @k@, find possible
+-- configurations where each @k@ is given its own unique @a@.
+pickUnique :: (Ord k, Ord a) => [(k, Set a)] -> [Map k a]
+pickUnique mp = flip evalStateT S.empty $ do
+    fmap M.fromList . for opts . traverse $ \poss -> do
+      seen <- get
+      pick <- lift $ S.toList (poss `S.difference` seen)
+      pick <$ modify (S.insert pick)
+  where
+    opts = sortOn (S.size . snd) mp
 
 -- | Remove an item from a list. Not efficient, use a map for 
 -- performance intensive applications

@@ -1,4 +1,4 @@
-module Y20.Day20 where
+module Y20.Day20 (solve20d20p1) where
 
 import Data.List.Split (splitOn)
 import qualified Data.IntMap as IM
@@ -51,6 +51,14 @@ blockMatch b1 b2 =
   where
     bs1 = blockSigs b1
     bs2 = blockSigs b2
+
+blockConnect :: Block -> Block -> Bool
+blockConnect b1 b2 =
+  (not . null) (blockSigs b1 `intersect` blockSigs b2)
+  where
+    bs1 = blockSigs b1
+    bs2 = blockSigs b2
+
 
 matchCount :: Blocks -> Int -> Int
 matchCount bm bnum = 
