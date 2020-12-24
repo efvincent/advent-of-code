@@ -10,9 +10,13 @@ type Point = V2 IM.Key
 type Row = IM.IntMap Char
 type Grid = IM.IntMap Row
 type Blocks = IM.IntMap Block
+data Dir = N | E | S | W deriving Show
+
 data Block = Block
   { _num :: Int
-  , _grid :: Grid }
+  , _grid :: Grid
+  , _dir :: Dir
+  , _flip :: Bool }
   deriving (Show)
 
 fn1 :: [Char]
@@ -41,6 +45,7 @@ blockSigs b =
     s2' = bitListToInt . zip [9,8..]. map snd . IM.toList . (IM.! 9) $ g
     s3' = bitListToInt . zip [9,8..] $ [getP b (V2 0 x) | x <- [0..9]]    
 
+blockMatch :: Block -> Block -> Bool
 blockMatch b1 b2 =
   (not . null) (blockSigs b1 `intersect` blockSigs b2)
   where
@@ -49,13 +54,14 @@ blockMatch b1 b2 =
 
 matchCount :: Blocks -> Int -> Int
 matchCount bm bnum = 
-  length . filter id . map (blockMatch b . snd) . IM.toList . IM.delete bnum $ bm 
-  where 
-    b = bm IM.! bnum
+  length . filter id . map (blockMatch (bm IM.! bnum) . snd) . IM.toList . IM.delete bnum $ bm 
 
 parseBlock :: String -> Block
 parseBlock raw =
-  Block { _num = num, _grid = IM.fromList . zip [0..] . map mkRow $ ss}
+  Block { _num = num
+        , _grid = IM.fromList . zip [0..] . map mkRow $ ss
+        , _dir = N
+        , _flip = False }
   where
     (s:ss) = lines raw
     num = read . take 4 . drop 5 $ s
