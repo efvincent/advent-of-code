@@ -30,6 +30,7 @@ dependencies:
 - linear
 - megaparsec
 - data-clist
+- hashable
 
 # library:
 #  source-dirs: src
