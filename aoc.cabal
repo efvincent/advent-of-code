@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 969e6e243ddfd422421b752c3d54a0436be7778b6dcff424b4a1e15a5fd08084
+-- hash: e62712964aecb303845256112a6da26d6e4397926ed0ca0306f6e9e59ec712f9
 
 name:           aoc
 version:        0.1.0.0
@@ -66,7 +66,7 @@ executable aoc-exe
       Y20.Day21
       Y20.Day22
       Y20.Day23
-      Y20.Dya23v2
+      Y20.Day23v2
       Paths_aoc
   hs-source-dirs:
       app
@@ -82,9 +82,11 @@ executable aoc-exe
     , linear
     , megaparsec
     , mtl
+    , primitive
     , regex-tdfa
     , split
     , text
+    , vector
   default-language: Haskell2010
 
 test-suite aoc-test
@@ -106,7 +108,9 @@ test-suite aoc-test
     , linear
     , megaparsec
     , mtl
+    , primitive
     , regex-tdfa
     , split
     , text
+    , vector
   default-language: Haskell2010

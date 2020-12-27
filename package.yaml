@@ -31,6 +31,8 @@ dependencies:
 - megaparsec
 - data-clist
 - hashable
+- vector
+- primitive
 
 # library:
 #  source-dirs: src

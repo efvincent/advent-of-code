@@ -17,6 +17,11 @@ import Data.List.Extra (sortOn)
 -- | Point used all over the place
 type Point = V2 Int
 
+-- | Apply function f n times
+applyN :: Int -> (a -> a) -> a -> a
+applyN 0 f = id
+applyN n f = foldr1 (.) $ replicate n f
+
 printAll :: Show a => [a] -> IO ()
 printAll [] = return ()
 printAll (x:xs) = do

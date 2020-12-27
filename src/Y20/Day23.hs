@@ -1,4 +1,4 @@
-module Y20.Day23 where
+module Y20.Day23 (solve20d23p1) where
 
 import qualified  Data.CircularList as CL
 import Data.CircularList (rotL, insertL, rotNR, rotNL, rotR, removeR, insertR, focus, rotateTo)
@@ -78,7 +78,6 @@ takeNturns n cups =
   where
     minN = minimum cups
     maxN = maximum cups
-    
 
 solve20d23p1 :: Int -> String -> IO ()
 solve20d23p1 n raw = 
