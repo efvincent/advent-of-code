@@ -33,6 +33,7 @@ dependencies:
 - hashable
 - vector
 - primitive
+- arithmoi
 
 # library:
 #  source-dirs: src

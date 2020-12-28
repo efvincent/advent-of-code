@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: ae7679b0db5e39bdd75ca3946ac126ceef31f0bf9003bc11296757967b5d2f08
+-- hash: 9846b64ef229fd542b58f17c60c5c2dc5617bd100b55fe869a4e26cd5264dbb3
 
 name:           aoc
 version:        0.1.0.0
@@ -68,13 +68,15 @@ executable aoc-exe
       Y20.Day23
       Y20.Day23v2
       Y20.Day24
+      Y20.Day25
       Paths_aoc
   hs-source-dirs:
       app
       src
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-      base >=4.7 && <5
+      arithmoi
+    , base >=4.7 && <5
     , containers
     , criterion
     , data-clist
@@ -100,6 +102,7 @@ test-suite aoc-test
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       aoc
+    , arithmoi
     , base >=4.7 && <5
     , containers
     , criterion
