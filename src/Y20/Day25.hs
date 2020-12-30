@@ -1,4 +1,4 @@
-module Y20.Day25 where
+module Y20.Day25 (solve20d25) where
 
 import Util (applyN)
 import qualified Data.IntMap.Strict as IM
@@ -31,3 +31,6 @@ getPrivateKey (pk1, pk2) =
       zip [0..] $                           -- will create a tuple with the loop size
       iterate ((`mod` 20201227) . (* 7)) 1  -- iterate feeds the resunt of the fn back to itself while yielding it
     otherPk = if foundPk /= pk1 then pk1 else pk2
+
+solve20d25 :: IO ()
+solve20d25 = print $ getPrivateKey xs
