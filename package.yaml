@@ -28,7 +28,7 @@ dependencies:
 - criterion
 - extra
 - linear
-- megaparsec
+- parsec
 - data-clist
 - hashable
 - vector

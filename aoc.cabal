@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 9846b64ef229fd542b58f17c60c5c2dc5617bd100b55fe869a4e26cd5264dbb3
+-- hash: 5f358f5e9ce9657214f337d3c988ac525d7d07b83775854b479d62ec9dfe3d6a
 
 name:           aoc
 version:        0.1.0.0
@@ -60,9 +60,11 @@ executable aoc-exe
       Y20.Day17p2
       Y20.Day18
       Y20.Day18p2
-      Y20.Day18v3
       Y20.Day19
       Y20.Day20
+      Y20.Day20v2
+      Y20.Day20v3
+      Y20.Day20v4
       Y20.Day21
       Y20.Day22
       Y20.Day23
@@ -83,8 +85,8 @@ executable aoc-exe
     , extra
     , hashable
     , linear
-    , megaparsec
     , mtl
+    , parsec
     , primitive
     , regex-tdfa
     , split
@@ -110,8 +112,8 @@ test-suite aoc-test
     , extra
     , hashable
     , linear
-    , megaparsec
     , mtl
+    , parsec
     , primitive
     , regex-tdfa
     , split

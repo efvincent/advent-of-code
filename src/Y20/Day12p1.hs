@@ -1,6 +1,6 @@
 module Y20.Day12p1 (
   solve20d12p1,
-  Dir(..),
+
   Op(..),
   parseOp,
   parseOps,

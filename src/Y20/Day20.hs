@@ -1,5 +1,9 @@
 module Y20.Day20 (solve20d20p1) where
 
+{-
+Worked for part 1, abandoned for part 2. see
+Day20v4.hs for the final approach used.
+-}
 import Data.List.Split (splitOn)
 import qualified Data.IntMap as IM
 import Data.List.Extra (intersect, intercalate)
@@ -46,19 +50,7 @@ blockSigs b =
     s3' = bitListToInt . zip [9,8..] $ [getP b (V2 0 x) | x <- [0..9]]    
 
 blockMatch :: Block -> Block -> Bool
-blockMatch b1 b2 =
-  (not . null) (blockSigs b1 `intersect` blockSigs b2)
-  where
-    bs1 = blockSigs b1
-    bs2 = blockSigs b2
-
-blockConnect :: Block -> Block -> Bool
-blockConnect b1 b2 =
-  (not . null) (blockSigs b1 `intersect` blockSigs b2)
-  where
-    bs1 = blockSigs b1
-    bs2 = blockSigs b2
-
+blockMatch b1 b2 = (not . null) (blockSigs b1 `intersect` blockSigs b2)
 
 matchCount :: Blocks -> Int -> Int
 matchCount bm bnum = 
