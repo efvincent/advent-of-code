@@ -4,12 +4,20 @@ author: Eric F. Vincent
 ...
 
 # Advent of Code 2020!
-This is the first year that I'm doing AoC in real time. The only thing that makes this possible is my chronically bad sleeping habits and remote work. I can still get 6-7h sleep after doing these. Not sure how long that will last...
+Completed for the first time! I had to seek help on 2 days... I don't recall which ones exactly atm but I'll get back to writing up some notes at some point. Day 20 part 2 was actually the last one I finished, it took me the longest I think. I had started over 3x before I landed on an approach I was happy with.
+
+Several days can use refactoring, but I doubt I'll do that. This was a great experience and a fun way to beef up my Haskell skills. I'm already looking forward to next year :)
 ## Running Statistics
 
 ```
       --------Part 1--------   --------Part 2--------
 Day       Time   Rank  Score       Time   Rank  Score
+ 25       >24h  13132      0       >24h  10812      0
+ 24       >24h  13644      0       >24h  12806      0
+ 23       >24h  14596      0       >24h  12147      0
+ 22       >24h  16326      0       >24h  13863      0
+ 21       >24h  14239      0       >24h  14031      0
+ 20       >24h  14005      0       >24h  12983      0
  19   01:49:16   2950      0       >24h  13173      0
  18   04:42:13   8473      0   16:41:26  14852      0
  17   02:23:08   5038      0   02:35:27   4688      0
