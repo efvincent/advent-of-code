@@ -17,6 +17,12 @@ import Data.List.Extra (sortOn)
 -- | Point used all over the place
 type Point = V2 Int
 
+vfst :: V2 a -> a
+vfst (V2 a _) = a
+
+vsnd :: V2 a -> a
+vsnd (V2 _ b) = b
+
 -- | Apply function f n times
 applyN :: Int -> (a -> a) -> a -> a
 applyN 0 f = id
