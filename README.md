@@ -1,8 +1,3 @@
----
-title: Advent of Code 2020
-author: Eric F. Vincent
-...
-
 # Advent of Code 2020!
 Completed for the first time! I had to seek help on 2 days... I don't recall which ones exactly atm but I'll get back to writing up some notes at some point. Day 20 part 2 was actually the last one I finished, it took me the longest I think. I had started over 3x before I landed on an approach I was happy with.
 
