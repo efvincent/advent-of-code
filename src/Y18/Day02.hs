@@ -4,10 +4,11 @@ import           Data.Function   ((&))
 import           Data.List.Extra (sort)
 import           Data.Maybe      (fromMaybe)
 import qualified Data.Set        as Set
-import           Util            (histogram)
+import           Util            (freqs)
+import           Data.Map        (elems, toList)
 
 procLine :: [Char] -> Set.Set Int
-procLine = Set.fromList . filter (>1) . map fst . histogram
+procLine = Set.fromList . filter (>1) . elems . freqs
 
 solve1 :: [Char] -> Int
 solve1 raw =

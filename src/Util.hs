@@ -1,3 +1,4 @@
+{-# LANGUAGE TupleSections #-}
 module Util where
 
 import Data.List.Split ( splitOn )
@@ -8,18 +9,27 @@ import Data.Set (Set)
 import qualified Data.Set as S
 import Data.Map (Map)
 import qualified Data.Map as M
-import           Control.Monad
-import           Control.Monad.ST
-import           Control.Monad.State
-import Data.Traversable
+import Control.Monad.State
+    ( replicateM,
+      MonadTrans(lift),
+      modify,
+      evalStateT,
+      MonadState(get) )
+import Data.Traversable ( for )
 import Data.List.Extra (sortOn)
+
+-- | Generate a frequency map w/ each @a@ as the key
+freqs :: Ord a => [a] -> Map a Int
+freqs = M.fromListWith (+) . map (,1)
 
 -- | Point used all over the place
 type Point = V2 Int
 
+-- | Get the first from the V2 (usually the x value in a point)
 vfst :: V2 a -> a
 vfst (V2 a _) = a
 
+-- | Get the second from the V2 (usually the y value in a point)
 vsnd :: V2 a -> a
 vsnd (V2 _ b) = b
 
@@ -110,9 +120,6 @@ stabilizeAndCount f =
 -- | Count the number of items in a container where the predicate is true.
 countTrue :: Foldable f => (a -> Bool) -> f a -> Int
 countTrue p = length . filter p . toList
-
-histogram :: Eq b => Ord b => [b] -> [(Int, b)]
-histogram = map (\l -> (length l, head l)) . (group . sort)
 
 -- | Runs a single test, by checking 'control' is equal to 'candidate'
 -- Returns 'Either' where 'Right ()' is success, and 'Left msg' is the message supplied
