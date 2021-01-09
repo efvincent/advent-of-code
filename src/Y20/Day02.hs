@@ -1,6 +1,7 @@
 module Y20.Day02 (solve20d2) where
 
 import Data.List.Split ( splitOn )
+import Data.Algebra.Boolean (xor)
 
 -- | Checks for a legal string using two algorithms, returns tuple of two
 -- bool results.
@@ -14,10 +15,6 @@ isLegal s =
     count = length $ filter (== c) test
     p1 = test!!(mn-1) == c
     p2 = test!!(mx-1) == c
-
--- | Quicker to type xor than look up what package (if any) contains it
-xor :: Bool -> Bool -> Bool
-xor x y = (x && not y ) || (not x && y)
 
 -- | Solve the puzzle using both alorithms
 solve :: String -> (Int,Int)
