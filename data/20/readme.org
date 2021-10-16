@@ -1,0 +1,4 @@
+# data/20
+
+When I first did the aoc 2020, I did it under my bluecore github account. MISTAKE because I don't work there anymore :(
+This folder will contain exercises from my personal google account.
