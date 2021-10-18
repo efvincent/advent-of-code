@@ -15,7 +15,7 @@ data Params = Params
   , _others :: [Ticket] }
   deriving Show
 
-fn = "./Data/20/Day16.txt"
+fn = "./data/20/Day16.txt"
 
 parseRules :: String -> [Rule]
 parseRules = 

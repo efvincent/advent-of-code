@@ -9,7 +9,7 @@ t1 :: [Char]
 t1 = "389125467"
 
 data20d32 :: [Char]
-data20d32 = "583976241"
+data20d32 = "394618527" -- bluecore account puzzle: "583976241"
 
 turn :: Int -> (Int, IM.IntMap Int) -> (IM.Key, IM.IntMap IM.Key)
 turn maxx (curIdx, m) = 

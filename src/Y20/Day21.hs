@@ -15,7 +15,7 @@ import Util (pickUnique, countTrue)
 t1 :: [Char]
 t1 = "mxmxvkd kfcds sqjhc nhms (contains dairy, fish)\ntrh fvjkl sbzzf mxmxvkd (contains dairy)\nsqjhc fvjkl (contains soy)\nsqjhc mxmxvkd sbzzf (contains fish)"
 
-fn = "./Data/20/Day21.txt"
+fn = "./data/20/Day21.txt"
 
 parseRaw :: String -> [(Set [Char], Set [Char])]
 parseRaw = 

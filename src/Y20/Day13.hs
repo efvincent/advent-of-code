@@ -7,7 +7,7 @@ import Data.List.Extra ( minimumBy )
 t = "939\n7,13,x,x,59,x,31,19"
 
 fn20d13 :: [Char]
-fn20d13 = "./Data/20/Day13.txt"
+fn20d13 = "./data/20/Day13.txt"
 
 bestTime :: (Ord b, Num b) => b -> b -> (b, b)
 bestTime target busId = 

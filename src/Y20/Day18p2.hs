@@ -29,6 +29,6 @@ factor = do
 
 solve20d18p2 :: IO ()
 solve20d18p2 = do
-  raw <- readFile "./Data/20/Day18.txt"
+  raw <- readFile "./data/20/Day18.txt"
   let xs = map fst $ concatMap (parse expr) $ lines raw
   print $ sum xs

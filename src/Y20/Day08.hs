@@ -32,13 +32,15 @@ mkComputer s =
 
         mkIns :: String -> (OpCode, Int)
         mkIns s =
-          let [op, amt] = words s in
-          (readOp op, readAmt amt)
+          case words s of
+            [op, amt] -> (readOp op, readAmt amt)
+            _ -> (NOP, 0)
           where
             readOp :: String -> OpCode
             readOp "acc" = ACC
             readOp "jmp" = JMP
             readOp "nop" = NOP
+            readOp _ = NOP
 
             readAmt :: String -> Int
             readAmt (s:ss) | s == '+' = read ss

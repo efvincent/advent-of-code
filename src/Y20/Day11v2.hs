@@ -1,4 +1,4 @@
-module Y20.Day11v2 (load1p, load2p, fn20d11) where
+module Y20.Day11v2 (solve20d11p1, solve20d11p2, fn20d11) where
 
 import qualified Data.Map.Strict as M
 import qualified Data.Set as S
@@ -126,3 +126,11 @@ load2p :: IO World
 load2p = do
   raw <- readFile fn20d11
   pure $ mkWorld2 raw  
+
+solve20d11p1 = do
+  w <- load1p
+  print $ run1 w
+
+solve20d11p2 = do
+  w <- load2p
+  print $ run2 w

@@ -13,7 +13,7 @@ data Bounds = Bounds
     deriving Show
 
 fn :: String
-fn = "./Data/20/Day24.txt"
+fn = "./data/20/Day24.txt"
 
 parseRaw :: String -> Tiles
 parseRaw raw =

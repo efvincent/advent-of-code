@@ -9,7 +9,7 @@ import Data.Foldable (Foldable(foldl'))
 type Cups = CL.CList Int
 
 t :: [Char]
-t = "583976241"
+t = "394618527" -- bluecore account puzzle: "583976241"
 t1 :: [Char]
 t1 = "389125467"
 

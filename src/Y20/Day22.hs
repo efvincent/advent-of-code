@@ -14,7 +14,7 @@ import Data.Hashable (hash)
 type Deck = Seq Int
 
 fn :: [Char]
-fn = "./Data/20/Day22.txt"
+fn = "./data/20/Day22.txt"
 
 parseRaw :: [Char] -> [(Integer, Deck)]
 parseRaw = 

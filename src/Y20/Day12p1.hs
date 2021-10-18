@@ -86,6 +86,6 @@ mDist (V2 a b) = abs a + abs b
 
 solve20d12p1 :: IO ()
 solve20d12p1 = do
-  raw <- readFile "./Data/20/Day12.txt"
+  raw <- readFile "./data/20/Day12.txt"
   let ans = runOps $ parseOps raw
   print $ mDist $ _loc ans

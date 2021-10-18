@@ -5,7 +5,7 @@ import qualified Data.IntMap as M
 import Debug.Trace
 
 t :: [Char]
-t = "13,0,10,12,1,5,8"
+t = "1,0,18,10,19,6" -- bluecore account puzzle data was: "13,0,10,12,1,5,8"
 
 t1 = "0,3,6"
 
@@ -44,7 +44,7 @@ step term lastWasFirst turn l m
 
 solve20d15p1 :: IO ()
 solve20d15p1 = do
-  let ns = parse t1
+  let ns = parse t
   let ans = step 2020 True (length ns + 1) 6 ns
   print ans
 

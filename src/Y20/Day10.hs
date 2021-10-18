@@ -10,10 +10,10 @@ t1 :: [Char]
 t1 = "16\n10\n15\n5\n1\n11\n7\n19\n6\n12\n4"
 
 fn20d10 :: [Char]
-fn20d10 = "./Data/20/Day10.txt"
+fn20d10 = "./data/20/Day10.txt"
 
 fn1e :: [Char]
-fn1e = "./Data/20/Day10.ex01.txt"
+fn1e = "./data/20/Day10.ex01.txt"
 
 s1 :: String -> Int
 s1 s =

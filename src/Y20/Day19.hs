@@ -15,7 +15,7 @@ data Rule = Seq [M.Key]         -- ^ Must evaluate all rules in order
           deriving (Eq, Show)
 
 fn :: String
-fn = "./Data/20/Day19.txt"
+fn = "./data/20/Day19.txt"
 
 parseMatchRule :: String -> Rule
 parseMatchRule s = 

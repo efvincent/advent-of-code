@@ -68,6 +68,7 @@ findSumSubListEqTarget target allNums =
         test | test == target -> cur:acc
         test | test > target  -> loop [] nextTrial (tail nextTrial)
         _                     -> loop (cur:acc) rest nextTrial
+    loop _ _ _ = []
 
 solve20d9p1 :: Int -> String -> IO ()
 solve20d9p1 pre s = do

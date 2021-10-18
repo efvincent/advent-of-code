@@ -220,6 +220,6 @@ ppanel p = pgrid $ _grid p
 -------------------------}
 
 fn20d20ex01 :: [Char]
-fn20d20ex01 = "./Data/20/Day20.ex01.txt"
+fn20d20ex01 = "./data/20/Day20.ex01.txt"
 fn20d20 :: [Char]
-fn20d20 = "./Data/20/Day20.txt"
+fn20d20 = "./data/20/Day20.txt"

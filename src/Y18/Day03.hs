@@ -62,4 +62,4 @@ parseRaw s =
   FILE NAMES
 -------------------------}
 fn :: String
-fn = "./Data/18/Day03.txt"
+fn = "./data/18/Day03.txt"

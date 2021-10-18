@@ -10,11 +10,10 @@ module Main where
 --   ]
 
 
-import Y20.Day23v2 ( solve20d23p2, data20d32 )
-import Y20.Day01
+import Y20.Day23v2
 
 main :: IO ()
 main = do {
-  ans <- Y20.Day01.solve20d1p1 "/home/efvincent/code/aoc/data/20/Day01.txt" 2020;
-  print ans
+  Y20.Day23v2.solve20d23p2 1000000 10000000 "394618527" -- solve20d2 "/home/efvincent/code/aoc/data/20/Day01.txt";
+  
 }

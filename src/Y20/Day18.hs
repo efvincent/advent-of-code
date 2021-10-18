@@ -77,6 +77,6 @@ pcalc = pexpr . fst . parse .tokenize
 
 solve20d18p1 :: IO ()
 solve20d18p1 = do
-  raw <- readFile "./Data/20/Day18.txt"
+  raw <- readFile "./data/20/Day18.txt"
   let xs = map calc $ lines raw
   print $ sum xs

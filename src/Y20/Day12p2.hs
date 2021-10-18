@@ -34,6 +34,6 @@ runOps = foldl execOp initState
 
 solve20d12p2 :: IO ()
 solve20d12p2 = do
-  raw <- readFile "./Data/20/Day12.txt"
+  raw <- readFile "./data/20/Day12.txt"
   let ans = runOps $ parseOps raw
   print $ mDist $ _loc ans

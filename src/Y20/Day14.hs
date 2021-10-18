@@ -105,12 +105,12 @@ solve toMask runOp raw =
 
 solve20d14p1 :: IO ()
 solve20d14p1 = do
-  raw <- readFile "./Data/20/Day14.txt"
+  raw <- readFile "./data/20/Day14.txt"
   let ans = solve toMask1 runOp1 raw
   print ans
   
 solve20d14p2 :: IO () -- (3.10 secs, 6,303,551,160 bytes)
 solve20d14p2 = do
-  raw <- readFile "./Data/20/Day14.txt"
+  raw <- readFile "./data/20/Day14.txt"
   let ans = solve toMask2 runOp2 raw
   print ans

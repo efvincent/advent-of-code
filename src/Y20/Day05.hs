@@ -17,6 +17,7 @@ solve20d5p1 = do
 
 findGap :: [Int] -> Int
 findGap [] = 0
+findGap [_] = 0
 findGap (x:y:_) | y - x == 2 = y-1 
 findGap (_:y:xs) = findGap (y:xs)
 
